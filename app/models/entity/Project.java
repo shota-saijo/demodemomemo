@@ -21,8 +21,8 @@ public class Project extends Model{
 	@Id
 	private UUID id;
 	
-	@Column
 	@NotNull
+	@Column
 	private String name;
 	
 	@Column

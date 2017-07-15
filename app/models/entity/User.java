@@ -18,8 +18,8 @@ public class User extends Model{
 	@Id
 	private UUID id;
 	
-	@Column(name = "account_id")
 	@NotNull
+	@Column(name = "account_id")
 	private String accountId;
 	
 	@Column
