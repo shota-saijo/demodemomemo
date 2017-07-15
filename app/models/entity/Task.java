@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import com.avaje.ebean.Model;
 
 import lombok.Data;
+import models.constant.TaskStatus;
 
 @Data
 @Entity
@@ -36,4 +37,7 @@ public class Task extends Model{
 	
 	@ManyToOne
 	private Member member;
+	
+	@Column
+	private TaskStatus status;
 }
