@@ -13,15 +13,15 @@ import lombok.Data;
 
 @Data
 @Entity
-public class User extends Model{
+public class User extends Model {
 
-	@Id
-	private UUID id;
-	
-	@NotNull
-	@Column(name = "account_id")
-	private String accountId;
-	
-	@Column
-	private String password;
+    @Id
+    private UUID id;
+
+    @NotNull
+    @Column(name = "account_id")
+    private String accountId;
+
+    @Column
+    private String password;
 }
