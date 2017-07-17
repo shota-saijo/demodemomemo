@@ -1,27 +1,30 @@
 package models.entity;
 
-import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
-import com.avaje.ebean.Model;
+import org.hibernate.annotations.GenericGenerator;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
-public class User extends Model {
+public class User {
 
-    @Id
-    private UUID id;
+	@Id
+	@GeneratedValue(generator = "system-uuid")
+	@GenericGenerator(name = "system-uuid", strategy = "uuid")
+	private String id;
 
-    @NotNull
-    @Column(name = "account_id")
-    private String accountId;
+	@NotNull
+	@Column(name = "account_id")
+	private String accountId;
 
-    @Column
-    private String password;
+	@Column
+	private String password;
 }
