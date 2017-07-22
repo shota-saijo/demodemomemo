@@ -1,0 +1,30 @@
+@(title: String, scripts: Html = Html(""), styles: Html = Html(""))(content: Html)
+@base(title, scripts = layout_scripts, styles = layout_styles) {
+  @main
+}
+
+@main={
+<div class="navbar-fixed">
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo">Task ETE</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="#">Example1</a></li>
+        <li><a href="#">Example2</a></li>
+        <li><a href="#">Example3</a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+@content
+}
+
+@layout_scripts={
+<script src="@routes.Assets.versioned("/materialize/js/materialize.min.js")"></script>
+@scripts
+}
+
+@layout_styles={
+<link href="@routes.Assets.versioned("/materialize/css/materialize.min.css")" rel="stylesheet" >
+@styles
+}
