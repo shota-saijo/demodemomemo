@@ -16,7 +16,8 @@ libraryDependencies ++= Seq(
   javaWs,
   javaJpa,
   "org.projectlombok" % "lombok" % "1.16.10",
-  "org.hibernate" % "hibernate-entitymanager" % "5.1.0.Final"
+  "org.hibernate" % "hibernate-entitymanager" % "5.1.0.Final",
+  "org.mindrot" % "jbcrypt" % "0.3m"
 )
 
 libraryDependencies ++= Seq(
