@@ -1,30 +1,44 @@
 @(title: String, scripts: Html = Html(""), styles: Html = Html(""))(content: Html)
-@base(title, scripts = layout_scripts, styles = layout_styles) {
+@app(title, scripts = layout_scripts, styles = layout_styles) {
   @main
 }
 
 @main={
-<div class="navbar-fixed">
-  <nav>
-    <div class="nav-wrapper">
-      <a href="#" class="brand-logo">Task ETE</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="#">Example1</a></li>
-        <li><a href="#">Example2</a></li>
-        <li><a href="#">Example3</a></li>
-      </ul>
+<nav class="navbar navbar-inverse" style="margin:0px">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarEexample">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">TASK ETE</a>
+        </div>
+        
+        <div class="collapse navbar-collapse" id="navbarEexample">
+            <ul class="nav navbar-nav">
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+            </ul>
+            @if(session.get("loginUserId") == null) {
+              <p class="navbar-text navbar-right"><a href=@routes.IndexController.signIn() class="navbar-link">sign in</a> or <a href=@routes.IndexController.signUp() class="navbar-link">sign up</a></p>
+            } else {
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="/user/logout">Log out</a></li>
+              </ul>
+            }
+        </div>
     </div>
-  </nav>
+</nav>
+<div class="container">
+  @content
 </div>
-@content
 }
 
 @layout_scripts={
-<script src="@routes.Assets.versioned("/materialize/js/materialize.min.js")"></script>
-@scripts
 }
 
 @layout_styles={
-<link href="@routes.Assets.versioned("/materialize/css/materialize.min.css")" rel="stylesheet" >
-@styles
 }

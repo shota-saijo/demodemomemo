@@ -15,16 +15,17 @@ import lombok.Setter;
 @Setter
 @Entity
 public class User {
-
+	
 	@Id
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String id;
 
 	@NotNull
-	@Column(name = "account_id")
+	@Column(unique = true)
 	private String accountId;
 
 	@Column
 	private String password;
+	
 }
