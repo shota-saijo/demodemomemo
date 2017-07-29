@@ -1,11 +1,13 @@
 package models.form;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class UserForm {
 
-    private String accountId;
+	private String accountId;
 
-    private String password;
+	private String password;
 }
