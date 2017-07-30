@@ -1,12 +1,15 @@
 package controllers;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import com.google.inject.Inject;
 
+import models.constant.Constant;
 import models.entity.User;
 import models.form.UserForm;
 import models.repository.UserRepository;
 import play.data.FormFactory;
-import play.db.jpa.Transactional;
+import play.db.ebean.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -31,7 +34,7 @@ public class UserController extends Controller {
 		return redirect(routes.IndexController.dashboard());
 	}
 
-	@Transactional(readOnly = true)
+	@Transactional
 	public Result login() {
 		UserForm userForm = formFactory.form(UserForm.class).bindFromRequest().get();
 		User user = userRepo.findLoginUser(userForm.getAccountId(), userForm.getPassword());
@@ -48,8 +51,8 @@ public class UserController extends Controller {
 		return redirect(routes.IndexController.signIn());
 	}
 
-	private void setSession(String userId) {
-		session("loginUserId", userId);
+	private void setSession(Long userId) {
+		session(Constant.LOGIN_USER_ID, BCrypt.hashpw(String.valueOf(userId), BCrypt.gensalt()));
 	}
 
 	private void clearSession() {
