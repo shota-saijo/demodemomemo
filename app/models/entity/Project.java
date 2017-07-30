@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.GenericGenerator;
+import com.avaje.ebean.Model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,12 +18,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Project {
+public class Project extends Model {
 
 	@Id
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	private String id;
+	@GeneratedValue
+	private Long id;
 
 	@NotNull
 	@Column

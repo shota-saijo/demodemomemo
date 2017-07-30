@@ -2,7 +2,7 @@ name := """demodemomemo"""
 
 version := "1.0-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayJava)
+lazy val root = (project in file(".")).enablePlugins(PlayJava, PlayEbean)
 
 PlayKeys.externalizeResources := false
 EclipseKeys.projectFlavor := EclipseProjectFlavor.Java
@@ -16,7 +16,6 @@ libraryDependencies ++= Seq(
   javaWs,
   javaJpa,
   "org.projectlombok" % "lombok" % "1.16.10",
-  "org.hibernate" % "hibernate-entitymanager" % "5.1.0.Final",
   "org.mindrot" % "jbcrypt" % "0.3m"
 )
 

@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.GenericGenerator;
+import com.avaje.ebean.Model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,12 +14,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class User {
+public class User extends Model {
 	
+	public static Finder<Long, User> find = new Finder<Long, User>(User.class);
+
 	@Id
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	private String id;
+	@GeneratedValue
+	private Long id;
 
 	@NotNull
 	@Column(unique = true)
@@ -27,5 +28,5 @@ public class User {
 
 	@Column
 	private String password;
-	
+
 }
