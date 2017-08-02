@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.Model.Finder;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +22,8 @@ import models.constant.TaskStatus;
 @Entity
 public class Task extends Model {
 
+	public static final Finder<Long, Task> find = new Finder<Long, Task>(Task.class);
+	
 	@Id
 	@GeneratedValue
 	private Long id;

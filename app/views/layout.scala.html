@@ -22,7 +22,7 @@
                 <li><a href="#"></a></li>
                 <li><a href="#"></a></li>
             </ul>
-            @if(session.get("loginUserId") == null) {
+            @if(session.get("login_user_id") == null) {
               <p class="navbar-text navbar-right"><a href=@routes.IndexController.signIn() class="navbar-link">sign in</a> or <a href=@routes.IndexController.signUp() class="navbar-link">sign up</a></p>
             } else {
               <ul class="nav navbar-nav navbar-right">
@@ -38,7 +38,9 @@
 }
 
 @layout_scripts={
+@scripts
 }
 
 @layout_styles={
+@styles
 }

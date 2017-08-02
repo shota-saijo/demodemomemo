@@ -1,14 +1,159 @@
-@()
+@import models.entity._
+
+@(adminProjects: List[Project], publicProjects: List[Project], tasks: List[Task], userId: Long)
+
 @layout("dashboard", script, style) {
+<div style="padding:10px">
   @content
+</div>
 }
 
 @content={
-<div>This is Dashboard</div>
+<div class="row">
+  <div class="col-sm-12 col-md-6">
+    @project_list_panel
+  </div>
+  <div class="col-sm-12 col-md-6">
+    @task_list_panel 
+  </div>
+</div>
+}
+
+@project_list_panel={
+<div class="panel panel-default">
+  <a href="#" class="btn btn-success header-button pull-right">New Project</a>
+  <div class="panel-heading">
+    <h2 class="panel-title">Your Projects <span class="badge">@{val count = adminProjects.length + publicProjects.length; count}</span></h2>
+  </div>
+  <div class="panel-body">
+    <div class="container-fluid">
+      <input type="text" class="form-control" placeholder="Find a Project..." style="margin-bottom:10px">
+      <ul class="nav nav-tabs nav-justified" style="margin-bottom:10px">
+        <li role="presentation" class="active"><a href="#tab_all" data-toggle="tab">All</a></li>
+        <li role="presentation"><a href="#tab_admin" data-toggle="tab">Admin</a></li>
+        <li role="presentation"><a href="#tab_public" data-toggle="tab">Member</a></li>
+      </ul>
+      @tab_content
+    </div>
+  </div>
+</div>
+}
+
+@tab_content={
+<div class="tab-content">
+  @tab_all
+  @tab_admin
+  @tab_public
+</div>
+}
+
+@projectTableHeader() = {
+  <tr>
+    <th>プロジェクト名</th>
+    <th>タスク数</th>
+    <th>メンバー数</th>
+  </tr>
+}
+
+@projectTableData(projects: List[Project]) = {
+  @for(project <- projects) {
+    <tr>
+      <td>@project.getName()</td>
+      <td>@project.getTasks().size()</td>
+      <td>@project.getMembers().size()</td>
+    </tr>
+  }
+}
+
+@tab_all={
+<div class="tab-pane active" id="tab_all">
+  <div class="container-fluid">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          @projectTableHeader()
+        </thead>
+        <tbody>
+          @projectTableData(adminProjects)
+          @projectTableData(publicProjects)
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+}
+
+@tab_admin={
+<div class="tab-pane" id="tab_admin">
+  <div class="container-fluid">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          @projectTableHeader()
+        </thead>
+        <tbody>
+          @projectTableData(adminProjects)
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+}
+
+@tab_public={
+<div class="tab-pane" id="tab_public">
+  <div class="container-fluid">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          @projectTableHeader()
+        </thead>
+        <tbody>
+          @projectTableData(publicProjects)
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+}
+
+@task_list_panel={
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h2 class="panel-title">Your Tasks <span class="badge">@tasks.length</span></h2>
+  </div>
+  <div class="panel-body">
+    <div class="container-fluid">
+      <input type="text" class="form-control" placeholder="Find a Task..." style="margin-bottom:10px">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <tbody>
+            @for(task <- tasks) {
+              <tr>
+                <td>@task.getProject().getName()</td>
+                <td>@task.getTitle()</td>
+                <td>@task.getStatus()</td>
+                <td>@task.getMember().getUser().getAccountId()</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 }
 
 @script={
 }
 
 @style={
+<style>
+.header-button{
+  position: relative;
+  z-index: 2;
+  float: right;
+  margin: 2px 10px 0 0;
+}
+</style>
 }

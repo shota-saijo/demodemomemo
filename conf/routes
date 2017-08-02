@@ -1,7 +1,7 @@
 GET  /                                          controllers.IndexController.index()
 GET  /signup                                    controllers.IndexController.signUp()
 GET  /signin                                    controllers.IndexController.signIn()
-GET  /dashboard                                 controllers.IndexController.dashboard()
+GET  /user/:userId/dashboard                    controllers.IndexController.dashboard(userId:Long)
 
 POST /user/new                                  controllers.UserController.create()
 POST /user/login                                controllers.UserController.login()

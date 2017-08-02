@@ -1,6 +1,6 @@
 package models.entity;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,6 +21,8 @@ import models.constant.MemberRole;
 @Entity
 public class Member extends Model{
 
+	public static final Finder<Long, Member> find = new Finder<Long, Member>(Member.class);
+	
 	@Id
 	@GeneratedValue()
 	private String id;
@@ -37,5 +39,5 @@ public class Member extends Model{
 	private MemberRole role;
 
 	@OneToMany
-	private Set<Task> tasks;
+	private List<Task> tasks;
 }

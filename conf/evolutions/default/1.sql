@@ -14,8 +14,8 @@ create table member (
   id                            varchar(255) not null,
   project_id                    bigint not null,
   user_id                       bigint not null,
-  role                          integer,
-  constraint ck_member_role check (role in (0,1)),
+  role                          varchar(6),
+  constraint ck_member_role check (role in ('admin','public')),
   constraint pk_member primary key (id)
 );
 
