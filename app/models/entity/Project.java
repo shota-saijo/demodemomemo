@@ -20,6 +20,8 @@ import lombok.Setter;
 @Entity
 public class Project extends Model {
 
+	public static final Finder<Long, Project> find = new Finder<Long, Project>(Project.class);
+	
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -32,7 +34,7 @@ public class Project extends Model {
 	private String description;
 
 	@OneToMany
-	private Set<Member> member;
+	private Set<Member> members;
 
 	@OneToMany
 	private List<Task> tasks;

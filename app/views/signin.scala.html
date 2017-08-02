@@ -1,7 +1,7 @@
 @()
 @app("Sign in", script, style) {
 <div style="padding:50px">
-@content
+  @content
 </div>
 }
 
@@ -36,6 +36,7 @@
 
             <button type="submit" class="btn btn-success btn-block"><strong>Sign in for Task ETE </strong></button>
           </form>
+          <div class="text-center">new to Task ETE ? <a href=@routes.IndexController.signUp()>Create an account.</a></div>
         </div>
       </div>
     </div>

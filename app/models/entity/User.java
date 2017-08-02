@@ -16,7 +16,7 @@ import lombok.Setter;
 @Entity
 public class User extends Model {
 	
-	public static Finder<Long, User> find = new Finder<Long, User>(User.class);
+	public static final Finder<Long, User> find = new Finder<Long, User>(User.class);
 
 	@Id
 	@GeneratedValue

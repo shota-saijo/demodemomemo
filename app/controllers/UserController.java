@@ -1,7 +1,5 @@
 package controllers;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 import com.google.inject.Inject;
 
 import models.constant.Constant;
@@ -10,10 +8,9 @@ import models.form.UserForm;
 import models.repository.UserRepository;
 import play.data.FormFactory;
 import play.db.ebean.Transactional;
-import play.mvc.Controller;
 import play.mvc.Result;
 
-public class UserController extends Controller {
+public class UserController extends BaseController {
 
 	@Inject
 	UserRepository userRepo;
@@ -31,7 +28,7 @@ public class UserController extends Controller {
 		}
 		User loginUser = userRepo.store(userForm);
 		setSession(loginUser.getId());
-		return redirect(routes.IndexController.dashboard());
+		return redirect(routes.IndexController.dashboard(loginUser.getId()));
 	}
 
 	@Transactional
@@ -43,7 +40,7 @@ public class UserController extends Controller {
 			return redirect(routes.IndexController.signIn());
 		}
 		setSession(user.getId());
-		return redirect(routes.IndexController.dashboard());
+		return redirect(routes.IndexController.dashboard(user.getId()));
 	}
 
 	public Result logout() {
@@ -52,7 +49,7 @@ public class UserController extends Controller {
 	}
 
 	private void setSession(Long userId) {
-		session(Constant.LOGIN_USER_ID, BCrypt.hashpw(String.valueOf(userId), BCrypt.gensalt()));
+		session(Constant.LOGIN_USER_ID, String.valueOf(userId));
 	}
 
 	private void clearSession() {
