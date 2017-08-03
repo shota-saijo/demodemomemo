@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class UserForm {
 
-	private String accountId;
+  private String accountId;
 
-	private String password;
+  private String password;
 }

@@ -1,5 +1,3 @@
 package models.form;
 
-public class ProjectForm {
-
-}
+public class ProjectForm {}

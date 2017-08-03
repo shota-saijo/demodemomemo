@@ -1,5 +1,3 @@
 package models.repository;
 
-public class CommentRepository {
-
-}
+public class CommentRepository {}

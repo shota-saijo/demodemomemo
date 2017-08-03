@@ -1,6 +1,6 @@
 @(title: String, scripts: Html = Html(""), styles: Html = Html(""))(content: Html)
 @app(title, scripts = layout_scripts, styles = layout_styles) {
-  @main
+@main
 }
 
 @main={
@@ -15,7 +15,7 @@
             </button>
             <a class="navbar-brand" href="/">TASK ETE</a>
         </div>
-        
+
         <div class="collapse navbar-collapse" id="navbarEexample">
             <ul class="nav navbar-nav">
                 <li><a href="#"></a></li>
@@ -23,17 +23,18 @@
                 <li><a href="#"></a></li>
             </ul>
             @if(session.get("login_user_id") == null) {
-              <p class="navbar-text navbar-right"><a href=@routes.IndexController.signIn() class="navbar-link">sign in</a> or <a href=@routes.IndexController.signUp() class="navbar-link">sign up</a></p>
+            <p class="navbar-text navbar-right"><a href=@routes.IndexController.signIn() class="navbar-link">sign in</a>
+                or <a href=@routes.IndexController.signUp() class="navbar-link">sign up</a></p>
             } else {
-              <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right">
                 <li><a href="/user/logout">Log out</a></li>
-              </ul>
+            </ul>
             }
         </div>
     </div>
 </nav>
 <div class="container">
-  @content
+    @content
 </div>
 }
 

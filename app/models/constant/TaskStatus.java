@@ -1,5 +1,3 @@
 package models.constant;
 
-public enum TaskStatus {
-
-}
+public enum TaskStatus {}
