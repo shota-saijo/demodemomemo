@@ -1,49 +1,32 @@
 package models.entity;
 
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
-
 import com.avaje.ebean.Model;
-import com.avaje.ebean.Model.Finder;
-
 import lombok.Getter;
 import lombok.Setter;
 import models.constant.TaskStatus;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
 public class Task extends Model {
 
-	public static final Finder<Long, Task> find = new Finder<Long, Task>(Task.class);
-	
-	@Id
-	@GeneratedValue
-	private Long id;
+  public static final Finder<Long, Task> find = new Finder<Long, Task>(Task.class);
 
-	@Column
-	private String title;
+  @Id @GeneratedValue private Long id;
 
-	@Column
-	private String contents;
+  @Column private String title;
 
-	@NotNull
-	@ManyToOne
-	private Project project;
+  @Column private String contents;
 
-	@OneToMany
-	private Set<Comment> comments;
+  @NotNull @ManyToOne private Project project;
 
-	@ManyToOne
-	private Member member;
+  @OneToMany private Set<Comment> comments;
 
-	@Column
-	private TaskStatus status;
+  @ManyToOne private Member member;
+
+  @Column private TaskStatus status;
 }

@@ -1,5 +1,3 @@
 package models.form;
 
-public class MemberForm {
-
-}
+public class MemberForm {}
