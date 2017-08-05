@@ -11,9 +11,15 @@ import javax.persistence.*;
 @Setter
 public class Comment extends Model {
 
-  @Id @GeneratedValue() private String id;
+  @Id @GeneratedValue public Long id;
 
-  @ManyToOne private Task task;
+  @ManyToOne
+  @JoinColumn(name = "task_id")
+  public Task task;
 
-  @Column private String content;
+  @Column public String content;
+
+  @ManyToOne
+  @JoinColumn(name = "member_id")
+  public Member creator;
 }

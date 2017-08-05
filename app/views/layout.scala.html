@@ -23,11 +23,11 @@
                 <li><a href="#"></a></li>
             </ul>
             @if(session.get("login_user_id") == null) {
-            <p class="navbar-text navbar-right"><a href=@routes.IndexController.signIn() class="navbar-link">sign in</a>
-                or <a href=@routes.IndexController.signUp() class="navbar-link">sign up</a></p>
+            <p class="navbar-text navbar-right"><a href=@routes.IndexController.showSignIn() class="navbar-link">sign in</a>
+                or <a href=@routes.IndexController.showSignUp() class="navbar-link">sign up</a></p>
             } else {
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/user/logout">Log out</a></li>
+                <li><a href=@routes.UserController.logout()>Log out</a></li>
             </ul>
             }
         </div>

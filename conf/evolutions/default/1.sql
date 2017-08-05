@@ -4,25 +4,30 @@
 # --- !Ups
 
 create table comment (
-  id                            varchar(255) not null,
+  id                            bigint not null,
   task_id                       bigint,
   content                       varchar(255),
+  member_id                     bigint,
   constraint pk_comment primary key (id)
 );
+create sequence comment_seq;
 
 create table member (
-  id                            varchar(255) not null,
-  project_id                    bigint not null,
+  id                            bigint not null,
+  project_id                    bigint,
   user_id                       bigint not null,
   role                          varchar(6),
   constraint ck_member_role check (role in ('admin','public')),
   constraint pk_member primary key (id)
 );
+create sequence member_seq;
 
 create table project (
   id                            bigint not null,
   name                          varchar(255) not null,
   description                   varchar(255),
+  start_date                    date,
+  end_date                      date,
   constraint pk_project primary key (id)
 );
 create sequence project_seq;
@@ -31,8 +36,8 @@ create table task (
   id                            bigint not null,
   title                         varchar(255),
   contents                      varchar(255),
-  project_id                    bigint not null,
-  member_id                     varchar(255),
+  project_id                    bigint,
+  member_id                     bigint,
   status                        integer,
   constraint ck_task_status check (status in ()),
   constraint pk_task primary key (id)
@@ -50,6 +55,9 @@ create sequence user_seq;
 
 alter table comment add constraint fk_comment_task_id foreign key (task_id) references task (id) on delete restrict on update restrict;
 create index ix_comment_task_id on comment (task_id);
+
+alter table comment add constraint fk_comment_member_id foreign key (member_id) references member (id) on delete restrict on update restrict;
+create index ix_comment_member_id on comment (member_id);
 
 alter table member add constraint fk_member_project_id foreign key (project_id) references project (id) on delete restrict on update restrict;
 create index ix_member_project_id on member (project_id);
@@ -69,6 +77,9 @@ create index ix_task_member_id on task (member_id);
 alter table comment drop constraint if exists fk_comment_task_id;
 drop index if exists ix_comment_task_id;
 
+alter table comment drop constraint if exists fk_comment_member_id;
+drop index if exists ix_comment_member_id;
+
 alter table member drop constraint if exists fk_member_project_id;
 drop index if exists ix_member_project_id;
 
@@ -82,8 +93,10 @@ alter table task drop constraint if exists fk_task_member_id;
 drop index if exists ix_task_member_id;
 
 drop table if exists comment;
+drop sequence if exists comment_seq;
 
 drop table if exists member;
+drop sequence if exists member_seq;
 
 drop table if exists project;
 drop sequence if exists project_seq;

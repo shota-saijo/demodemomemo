@@ -16,16 +16,16 @@ public class UserController extends BaseController {
   @Inject FormFactory formFactory;
 
   @Transactional
-  public Result create() {
+  public Result createUser() {
     UserForm userForm = formFactory.form(UserForm.class).bindFromRequest().get();
     User user = userRepo.findByAccountId(userForm.getAccountId());
     if (user != null) {
       flash("message", "アカウントID【" + userForm.getAccountId() + "】は使用されています。");
-      return redirect(routes.IndexController.signUp());
+      return redirect(routes.IndexController.showSignUp());
     }
     User loginUser = userRepo.store(userForm);
     setSession(loginUser.getId());
-    return redirect(routes.IndexController.dashboard(loginUser.getId()));
+    return redirect(routes.IndexController.showDashboard(loginUser.getId()));
   }
 
   @Transactional
@@ -34,15 +34,15 @@ public class UserController extends BaseController {
     User user = userRepo.findLoginUser(userForm.getAccountId(), userForm.getPassword());
     if (user == null) {
       flash("message", "アカウントIDまたはパスワードが間違っています。");
-      return redirect(routes.IndexController.signIn());
+      return redirect(routes.IndexController.showSignIn());
     }
     setSession(user.getId());
-    return redirect(routes.IndexController.dashboard(user.getId()));
+    return redirect(routes.IndexController.showDashboard(user.getId()));
   }
 
   public Result logout() {
     clearSession();
-    return redirect(routes.IndexController.signIn());
+    return redirect(routes.IndexController.showSignIn());
   }
 
   private void setSession(Long userId) {

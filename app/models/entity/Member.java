@@ -7,6 +7,7 @@ import models.constant.MemberRole;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -14,15 +15,24 @@ import java.util.List;
 @Entity
 public class Member extends Model {
 
-  public static final Finder<Long, Member> find = new Finder<Long, Member>(Member.class);
+  public static final Finder<Long, Member> find = new Finder<>(Member.class);
 
-  @Id @GeneratedValue() private String id;
+  @Id @GeneratedValue public Long id;
 
-  @NotNull @ManyToOne private Project project;
+  @ManyToOne
+  @JoinColumn(name = "project_id")
+  public Project project;
 
-  @NotNull @ManyToOne private User user;
+  @NotNull
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  public User user;
 
-  @Column private MemberRole role;
+  @Column public MemberRole role;
 
-  @OneToMany private List<Task> tasks;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "member", fetch = FetchType.EAGER)
+  public List<Task> tasks = new ArrayList<>();
+
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "creator", fetch = FetchType.EAGER)
+  public List<Comment> comments = new ArrayList<>();
 }

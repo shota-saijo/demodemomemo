@@ -18,7 +18,7 @@
                     <p class="text-danger">@flash.get("message")</p>
                     }
                     <form class="form-horizontal" role="form" data-toggle="validator"
-                          action=@routes.UserController.create() method="post">
+                          action=@routes.UserController.createUser() method="post">
                         <div class="form-group">
                             <label for="account-id" class="text-muted">Account ID</label>
                             <input type="text" class="form-control" id="account-id" placepolder="Account ID"
@@ -48,7 +48,7 @@
                         <button type="submit" class="btn btn-success btn-block"><strong>Sign up for Task ETE </strong>
                         </button>
                     </form>
-                    <div class="text-center">Do you already have an <a href=@routes.IndexController.signIn()>account</a>
+                    <div class="text-center">Do you already have an <a href=@routes.IndexController.showSignIn()>account</a>
                         ?
                     </div>
                 </div>
