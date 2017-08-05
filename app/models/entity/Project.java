@@ -3,26 +3,38 @@ package models.entity;
 import com.avaje.ebean.Model;
 import lombok.Getter;
 import lombok.Setter;
+import play.data.format.Formats;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
 @Entity
 public class Project extends Model {
 
-  public static final Finder<Long, Project> find = new Finder<Long, Project>(Project.class);
+  public static final Finder<Long, Project> find = new Finder<>(Project.class);
 
-  @Id @GeneratedValue private Long id;
+  @Id @GeneratedValue public Long id;
 
-  @NotNull @Column private String name;
+  @NotNull @Column public String name;
 
-  @Column private String description;
+  @Column public String description;
 
-  @OneToMany private Set<Member> members;
+  @Column
+  @Formats.DateTime(pattern = "yyyy/MM/dd")
+  public LocalDate startDate;
 
-  @OneToMany private List<Task> tasks;
+  @Column
+  @Formats.DateTime(pattern = "yyyy/MM/dd")
+  public LocalDate endDate;
+
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "project", fetch = FetchType.EAGER)
+  public List<Member> members = new ArrayList<>();
+
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "project", fetch = FetchType.EAGER)
+  public List<Task> tasks = new ArrayList<>();
 }

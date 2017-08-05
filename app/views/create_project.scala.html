@@ -1,0 +1,64 @@
+@(user: User)
+
+@layout("new project", script, style) {
+<div style="padding:10px">
+    @content
+</div>
+}
+
+@content={
+<div class="row">
+    <div class="col-md-offset-3 col-md-6">
+        <h2>Create Project<p class="small">a project contains all the tasks for yours</p></h2>
+        <hr>
+        <form action=@routes.ProjectController.create(user.id) method="post" data-toggle="validator">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="admin">管理者</label>
+                        <select id="admin" class="form-control" name="administrator">
+                            <option>@user.accountId</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="project_name">プロジェクト名</label>
+                        <input class="form-control" id="project_name" name="projectName"
+                               required  data-required-error="プロジェクト名は必須です。">
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </div>
+            </div>
+            <p>Great project names are short and memorable. Need inspiration? </p>
+            <div class="form-group">
+                <label for="description">プロジェクト説明<small>(optional)</small></label>
+                <!-- TODO markdown記法が使えるテキストエリアにする -->
+                <textarea class="form-control" rows="3" id="description" name="description"></textarea>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="start-date">開始日<small>(yyyy/MM/dd)</small></label>
+                        <!-- TODO datetimepickerを使用する -->
+                        <input class="form-control datetime-picker" id="start-date" name="startDate">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="end-date">終了日<small>(yyyy/MM/dd)</small></label>
+                        <!-- TODO datetimepickerを使用する -->
+                        <input class="form-control datetime-picker" id="end-date" name="endDate">
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <button class="btn btn-success">create a project</button>
+        </form>
+    </div>
+</div>
+}
+
+@script={}
+@style={}

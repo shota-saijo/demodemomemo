@@ -4,24 +4,26 @@ import com.avaje.ebean.Model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
 public class User extends Model {
 
-  public static final Finder<Long, User> find = new Finder<Long, User>(User.class);
+  public static final Finder<Long, User> find = new Finder<>(User.class);
 
-  @Id @GeneratedValue private Long id;
+  @Id @GeneratedValue public Long id;
 
   @NotNull
   @Column(unique = true)
-  private String accountId;
+  public String accountId;
 
-  @Column private String password;
+  @Column public String password;
+
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
+  public List<Member> members = new ArrayList<>();
 }

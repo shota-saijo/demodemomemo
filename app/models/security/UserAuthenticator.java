@@ -15,6 +15,6 @@ public class UserAuthenticator extends Security.Authenticator {
 
   @Override
   public Result onUnauthorized(Http.Context ctx) {
-    return redirect(routes.IndexController.index());
+    return redirect(routes.IndexController.showIndex());
   }
 }

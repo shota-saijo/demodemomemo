@@ -1,29 +1,30 @@
 package controllers;
 
+import com.avaje.ebean.annotation.Transactional;
 import com.google.inject.Inject;
+import models.constant.MemberRole;
 import models.entity.Project;
 import models.entity.Task;
 import models.entity.User;
+import models.repository.MemberRepository;
 import models.security.UserAuthenticator;
-import models.servise.ProjectTaskService;
-import models.servise.ProjectsRelatedToUserService;
+import play.Logger;
 import play.mvc.Result;
 import play.mvc.Security;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class IndexController extends BaseController {
 
-  @Inject ProjectsRelatedToUserService projectsRelatedToUserService;
-
-  @Inject ProjectTaskService projectTaskService;
+  @Inject MemberRepository memberRepository;
 
   /**
    * 初期画面表示
    *
    * @return 初期画面表示
    */
-  public Result index() {
+  public Result showIndex() {
     return ok(views.html.index.render());
   }
 
@@ -32,7 +33,7 @@ public class IndexController extends BaseController {
    *
    * @return サインアップ画面
    */
-  public Result signUp() {
+  public Result showSignUp() {
     return ok(views.html.signup.render());
   }
 
@@ -41,7 +42,7 @@ public class IndexController extends BaseController {
    *
    * @return サインイン画面
    */
-  public Result signIn() {
+  public Result showSignIn() {
     return ok(views.html.signin.render());
   }
 
@@ -50,8 +51,9 @@ public class IndexController extends BaseController {
    *
    * @return ダッシュボード画面
    */
+  @Transactional
   @Security.Authenticated(UserAuthenticator.class)
-  public Result dashboard(Long userId) {
+  public Result showDashboard(Long userId) {
     if (!isLoggedIn(userId)) {
       return badRequest("500 your userId is not logged in.");
     }
@@ -60,9 +62,33 @@ public class IndexController extends BaseController {
       return notFound("404 user is not found");
     }
 
-    List<Project> adminProjects = projectsRelatedToUserService.getAdminProjects(user);
-    List<Project> publicProjects = projectsRelatedToUserService.getPublicProjects(user);
-    List<Task> tasks = projectTaskService.getUserTasks(user);
+    List<Project> adminProjects =
+        memberRepository
+            .findByUser(user)
+            .stream()
+            .filter(member -> member.getRole().equals(MemberRole.ADMINISTRATOR))
+            .map(admin -> admin.getProject())
+            .collect(Collectors.toList());
+    ;
+    List<Project> publicProjects =
+        memberRepository
+            .findByUser(user)
+            .stream()
+            .filter(member -> member.getRole().equals(MemberRole.PUBLIC))
+            .map(admin -> admin.getProject())
+            .collect(Collectors.toList());
+    ;
+    List<Task> tasks =
+        memberRepository
+            .findByUser(user)
+            .stream()
+            .flatMap(member -> member.getTasks().stream())
+            .collect(Collectors.toList());
+
+    adminProjects.forEach(p -> Logger.debug(p.getName()));
+    adminProjects.forEach(p -> Logger.debug(p.getTasks() == null ? "is null" : "is not null"));
+    publicProjects.forEach(p -> Logger.debug(p.getTasks() == null ? "is null" : "is not null"));
+
     return ok(views.html.dashboard.render(adminProjects, publicProjects, tasks, user.getId()));
   }
 }

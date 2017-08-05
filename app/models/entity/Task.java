@@ -7,26 +7,32 @@ import models.constant.TaskStatus;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
 public class Task extends Model {
 
-  public static final Finder<Long, Task> find = new Finder<Long, Task>(Task.class);
+  public static final Finder<Long, Task> find = new Finder<>(Task.class);
 
-  @Id @GeneratedValue private Long id;
+  @Id @GeneratedValue public Long id;
 
-  @Column private String title;
+  @Column public String title;
 
-  @Column private String contents;
+  @Column public String contents;
 
-  @NotNull @ManyToOne private Project project;
+  @ManyToOne
+  @JoinColumn(name = "project_id")
+  public Project project;
 
-  @OneToMany private Set<Comment> comments;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "task", fetch = FetchType.EAGER)
+  public List<Comment> comments = new ArrayList<>();
 
-  @ManyToOne private Member member;
+  @ManyToOne
+  @JoinColumn(name = "member_id")
+  public Member member;
 
-  @Column private TaskStatus status;
+  @Column public TaskStatus status;
 }

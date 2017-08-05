@@ -1,11 +1,15 @@
-GET  /                                          controllers.IndexController.index()
-GET  /signup                                    controllers.IndexController.signUp()
-GET  /signin                                    controllers.IndexController.signIn()
-GET  /user/:userId/dashboard                    controllers.IndexController.dashboard(userId:Long)
+GET  /                                          controllers.IndexController.showIndex()
+GET  /signup                                    controllers.IndexController.showSignUp()
+GET  /signin                                    controllers.IndexController.showSignIn()
+GET  /user/:userId/dashboard                    controllers.IndexController.showDashboard(userId:Long)
 
-POST /user/new                                  controllers.UserController.create()
+POST /user/create                               controllers.UserController.createUser()
 POST /user/login                                controllers.UserController.login()
 GET  /user/logout                               controllers.UserController.logout()
+
+GET  /user/:userId/project/new                  controllers.ProjectController.newProject(userId:Long)
+POST /user/:userId/project/create               controllers.ProjectController.create(userId:Long)
+GET  /user/:userId/project/:projectId           controllers.ProjectController.showProject(userId:Long, projectId:Long)
 
 
 # Map static resources from the /public folder to the /assets URL path
