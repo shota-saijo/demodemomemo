@@ -1,0 +1,61 @@
+@(user: User, project: Project)
+
+@layout_project(user, project, "project") {
+<div style="padding:10px">
+    @content
+</div>
+}
+
+@content = {
+<div class="container-fluid">
+    <form action=@routes.ProjectController.update(user.id, project.id) method="post" data-toggle="validator">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="chief">管理責任者</label>
+                    <select id="chief" class="form-control" name="chief">
+                        <option value=@project.user.id>@project.getUser().getAccountId()</option>
+                        @for(member <- project.members) {
+                            @if(member.getRole().name() == "ADMINISTRATOR") {
+                                <option value=@member.user.id>@member.getUser().getAccountId()</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="project_name">プロジェクト名</label>
+                    <input class="form-control" id="project_name" name="projectName" value=@project.name
+                           required  data-required-error="プロジェクト名は必須です。">
+                    <div class="help-block with-errors"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="description">プロジェクト説明<small>(optional)</small></label>
+            <!-- TODO markdown記法が使えるテキストエリアにする -->
+            <textarea class="form-control" rows="3" id="description" name="description">@project.description</textarea>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="start-date">開始日<small>(yyyy-MM-dd)</small></label>
+                    <!-- TODO datetimepickerを使用する -->
+                    <input class="form-control datetime-picker" id="start-date" name="startDate" value=@project.startDate>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="end-date">終了日<small>(yyyy-MM-dd)</small></label>
+                    <!-- TODO datetimepickerを使用する -->
+                    <input class="form-control datetime-picker" id="end-date" name="endDate" value=@project.endDate>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <button class="btn btn-success">update a project</button>
+    </form>
+</div>
+}

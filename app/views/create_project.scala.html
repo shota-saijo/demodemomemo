@@ -15,9 +15,9 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="admin">管理者</label>
-                        <select id="admin" class="form-control" name="administrator">
-                            <option>@user.accountId</option>
+                        <label for="chief">管理責任者</label>
+                        <select id="chief" class="form-control" name="chief">
+                            <option value=@user.id>@user.accountId</option>
                         </select>
                     </div>
                 </div>
@@ -40,14 +40,14 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="start-date">開始日<small>(yyyy/MM/dd)</small></label>
+                        <label for="start-date">開始日<small>(yyyy-MM-dd)</small></label>
                         <!-- TODO datetimepickerを使用する -->
                         <input class="form-control datetime-picker" id="start-date" name="startDate">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="end-date">終了日<small>(yyyy/MM/dd)</small></label>
+                        <label for="end-date">終了日<small>(yyyy-MM-dd)</small></label>
                         <!-- TODO datetimepickerを使用する -->
                         <input class="form-control datetime-picker" id="end-date" name="endDate">
                     </div>

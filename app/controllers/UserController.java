@@ -11,33 +11,31 @@ import play.mvc.Result;
 
 public class UserController extends BaseController {
 
-  @Inject UserRepository userRepo;
-
   @Inject FormFactory formFactory;
 
   @Transactional
   public Result createUser() {
     UserForm userForm = formFactory.form(UserForm.class).bindFromRequest().get();
-    User user = userRepo.findByAccountId(userForm.getAccountId());
+    User user = userRepository.findByAccountId(userForm.getAccountId());
     if (user != null) {
       flash("message", "アカウントID【" + userForm.getAccountId() + "】は使用されています。");
       return redirect(routes.IndexController.showSignUp());
     }
-    User loginUser = userRepo.store(userForm);
+    User loginUser = userRepository.store(userForm);
     setSession(loginUser.getId());
-    return redirect(routes.IndexController.showDashboard(loginUser.getId()));
+    return redirect(routes.DashboardController.showAllProjects(loginUser.getId()));
   }
 
   @Transactional
   public Result login() {
     UserForm userForm = formFactory.form(UserForm.class).bindFromRequest().get();
-    User user = userRepo.findLoginUser(userForm.getAccountId(), userForm.getPassword());
+    User user = userRepository.findLoginUser(userForm.getAccountId(), userForm.getPassword());
     if (user == null) {
       flash("message", "アカウントIDまたはパスワードが間違っています。");
       return redirect(routes.IndexController.showSignIn());
     }
     setSession(user.getId());
-    return redirect(routes.IndexController.showDashboard(user.getId()));
+    return redirect(routes.DashboardController.showAllProjects(user.getId()));
   }
 
   public Result logout() {

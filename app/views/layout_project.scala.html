@@ -1,0 +1,39 @@
+@(user: User, project: Project, current_tab: String)(tab_content: Html)
+
+@layout("project", script, style) {
+<div style="padding:10px">
+    @content
+</div>
+}
+
+@isActive(tab_type: String) = {
+    @if(current_tab == tab_type) {
+        "active"
+    } else {
+        ""
+    }
+}
+
+@content = {
+<div class="row">
+    <div class="col-md-offset-1 col-md-10">
+        <ol class="breadcrumb">
+            <li><a href="/user/@user.id">@user.accountId</a></li>
+            <li><a href="@routes.DashboardController.showAllProjects(user.id)">ダッシュボード</a></li>
+            <li class="active">@project.name</li>
+        </ol>
+        <hr>
+        <ul class="nav nav-tabs">
+            <li role="presentation" class=@isActive("project")><a href=@routes.ProjectController.showProject(user.id, project.id)>PROJECT</a></li>
+            <li role="presentation" class=@isActive("tasks")><a href=@routes.TaskController.showProjectTasks(user.id, project.id)>TASKS</a></li>
+            <li role="presentation" class=@isActive("members")><a href=@routes.MemberController.showProjectMembers(user.id, project.id)>MEMBERS</a></li>
+        </ul>
+        <div class="tab-content">
+            @tab_content
+        </div>
+    </div>
+</div>
+}
+
+@script={}
+@style={}

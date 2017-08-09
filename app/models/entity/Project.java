@@ -24,13 +24,21 @@ public class Project extends Model {
 
   @Column public String description;
 
+  @NotNull
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  public User user;
+
   @Column
-  @Formats.DateTime(pattern = "yyyy/MM/dd")
+  @Formats.DateTime(pattern = "yyyy-MM-dd")
   public LocalDate startDate;
 
   @Column
-  @Formats.DateTime(pattern = "yyyy/MM/dd")
+  @Formats.DateTime(pattern = "yyyy-MM-dd")
   public LocalDate endDate;
+
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "project", fetch = FetchType.EAGER)
+  public List<Label> labels = new ArrayList<>();
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "project", fetch = FetchType.EAGER)
   public List<Member> members = new ArrayList<>();

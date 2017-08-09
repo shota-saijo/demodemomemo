@@ -30,9 +30,17 @@ public class Member extends Model {
 
   @Column public MemberRole role;
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "member", fetch = FetchType.EAGER)
-  public List<Task> tasks = new ArrayList<>();
+  public static Member newAdmin(User user) {
+    Member member = new Member();
+    member.setUser(user);
+    member.setRole(MemberRole.ADMINISTRATOR);
+    return member;
+  }
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "creator", fetch = FetchType.EAGER)
-  public List<Comment> comments = new ArrayList<>();
+  public static Member newPublic(User user) {
+    Member member = new Member();
+    member.setUser(user);
+    member.setRole(MemberRole.PUBLIC);
+    return member;
+  }
 }

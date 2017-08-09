@@ -20,6 +20,6 @@ public class Comment extends Model {
   @Column public String content;
 
   @ManyToOne
-  @JoinColumn(name = "member_id")
-  public Member creator;
+  @JoinColumn(name = "user_id")
+  public User user;
 }

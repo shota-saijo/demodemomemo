@@ -4,6 +4,8 @@ import models.entity.User;
 import models.form.UserForm;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.util.List;
+
 public class UserRepository {
 
   public User store(UserForm userForm) {
@@ -20,6 +22,10 @@ public class UserRepository {
 
   public User findByAccountId(String accountId) {
     return User.find.where().eq("accountId", accountId).findUnique();
+  }
+
+  public List<User> findLikeAccountId(String accountId) {
+    return User.find.where().ilike("accountId", accountId + "%").findList();
   }
 
   public User findLoginUser(String accountId, String password) {
