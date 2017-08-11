@@ -1,0 +1,105 @@
+@(loginUser: User, project: Project, users: List[User], accountId: String)
+
+@layout_project(loginUser, project, "members") {
+<div style="padding:10px">
+    <div class="row">
+        <div class="col-md-4">
+            @project_member
+        </div>
+        <div class="col-md-8">
+            @member_search
+        </div>
+    </div>
+</div>
+}
+
+@isAdmin(role: String) = {
+  @if(role == "ADMINISTRATOR") {
+    hidden
+  }
+}
+
+@isPublic(role: String) = {
+  @if(role == "PUBLIC") {
+    hidden
+  }
+}
+
+@project_member = {
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                @project.getName() members <span class="badge">@project.getMembers().size</span>
+            </h2>
+        </div>
+        <div class="list-group">
+            @for(member <- project.members) {
+            <a class="list-group-item">
+                <h4 class="list-group-item-heading">@member.getUser().getAccountId()</h4>
+                <div class="row">
+                    <form action=@routes.MemberController.update(loginUser.id, project.id, member.id) method="post" class="col-md-3">
+                        <input class="hidden" value="admin" name="role">
+                        <button class="btn btn-primary btn-xs @isAdmin(member.role.name())">admin</button>
+                    </form>
+                    <form action=@routes.MemberController.update(loginUser.id, project.id, member.id) method="post" class="col-md-3">
+                        <input class="hidden" value="public" name="role">
+                        <button class="btn btn-primary btn-xs @isPublic(member.role.name())">public</button>
+                    </form>
+                    <form action=@routes.MemberController.remove(loginUser.id, project.id, member.id) method="post" class="col-md-3">
+                        <button class="btn btn-warning btn-xs">remove</button>
+                    </form>
+                </div>
+            </a>
+            }
+        </div>
+    </div>
+</div>
+}
+
+@member_search = {
+<div class="container-fluid">
+    <div class="row" style="margin:10px 0px">
+        <form action=@routes.MemberController.searchUser(loginUser.id, project.id)>
+            <div class="col-md-9">
+                <input class="form-control" placeholder="Find a User" name="accountId" value=@accountId>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-success">search</button>
+            </div>
+        </form>
+    </div>
+    <div class="row" style="margin:10px 0px">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">User</h2>
+            </div>
+            <ul class="list-group">
+                @for(user <- users) {
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4>@user.accountId</h4>
+                        </div>
+                        <div class="col-md-2">
+                            <form action=@routes.MemberController.create(loginUser.id, project.id) method="post">
+                                <input value=@user.id name="userId" class="hidden">
+                                <input value="admin" name="role" class="hidden">
+                                <button class="btn btn-primary">admin</button>
+                            </form>
+                        </div>
+                        <div class="col-md-2">
+                            <form action=@routes.MemberController.create(loginUser.id, project.id) method="post">
+                                <input value=@user.id name="userId" class="hidden">
+                                <input value="public" name="role" class="hidden">
+                                <button class="btn btn-primary">public</button>
+                            </form>
+                        </div>
+                    </div>
+                </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+}

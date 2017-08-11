@@ -14,4 +14,6 @@ public class ProjectForm {
     public String startDate;
 
     public String endDate;
+
+    public Long chief;
 }

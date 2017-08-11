@@ -26,4 +26,13 @@ public class User extends Model {
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
   public List<Member> members = new ArrayList<>();
+
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
+  public List<Project> projects = new ArrayList<>();
+
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
+  public List<Task> tasks = new ArrayList<>();
+
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
+  public List<Comment> comments = new ArrayList<>();
 }

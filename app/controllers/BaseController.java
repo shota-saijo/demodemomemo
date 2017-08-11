@@ -7,7 +7,7 @@ import play.mvc.Controller;
 
 public class BaseController extends Controller {
 
-  @Inject UserRepository userRepo;
+  @Inject UserRepository userRepository;
 
   protected boolean isLoggedIn(Long userId) {
     return userId == Long.valueOf(session().get(Constant.LOGIN_USER_ID));
