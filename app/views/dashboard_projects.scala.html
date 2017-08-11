@@ -1,6 +1,6 @@
-@(projects: List[Project], tasks: List[Task], userId: Long, currentMenu: String)
+@(projects: List[Project], tasks: List[Task], user: User, currentMenu: String)
 
-@layout_dashboard(projects, tasks, userId, currentMenu) {
+@layout_dashboard(projects, tasks, user, currentMenu) {
     @content
 }
 
@@ -14,7 +14,7 @@
 
 @projectTableData(projects: List[Project]) = {
 @for(project <- projects) {
-<tr class="row table-link" data-html=@routes.ProjectController.showProject(userId, project.id)>
+<tr class="row table-link" data-html=@routes.ProjectController.showProject(user.id, project.id)>
     <td class="col-md-6">@project.getName()</td>
     <td class="col-md-3">@project.tasks.size</td>
     <td class="col-md-3">@project.members.size</td>

@@ -47,7 +47,7 @@ public class DashboardController extends BaseController {
             .flatMap(project -> project.getTasks().stream())
             .collect(Collectors.toList());
 
-    return ok(views.html.dashboard_projects.render(projects, tasks, user.getId(), "all"));
+    return ok(views.html.dashboard_projects.render(projects, tasks, user, "all"));
   }
 
   @Transactional
@@ -69,7 +69,7 @@ public class DashboardController extends BaseController {
             .flatMap(project -> project.getTasks().stream())
             .collect(Collectors.toList());
 
-    return ok(views.html.dashboard_projects.render(projects, tasks, user.getId(), "chief"));
+    return ok(views.html.dashboard_projects.render(projects, tasks, user, "chief"));
   }
 
   @Transactional
@@ -96,7 +96,7 @@ public class DashboardController extends BaseController {
             .flatMap(project -> project.getTasks().stream())
             .collect(Collectors.toList());
 
-    return ok(views.html.dashboard_projects.render(projects, tasks, user.getId(), "admin"));
+    return ok(views.html.dashboard_projects.render(projects, tasks, user, "admin"));
   }
 
   @Transactional
@@ -123,6 +123,6 @@ public class DashboardController extends BaseController {
             .flatMap(project -> project.getTasks().stream())
             .collect(Collectors.toList());
 
-    return ok(views.html.dashboard_projects.render(projects, tasks, user.getId(), "public"));
+    return ok(views.html.dashboard_projects.render(projects, tasks, user, "public"));
   }
 }

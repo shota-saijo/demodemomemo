@@ -24,6 +24,10 @@ POST /user/:userId/project/:projectId/update                    controllers.Proj
 
 #TaskController
 GET  /user/:userId/project/:projectId/task/list                 controllers.TaskController.showProjectTasks(userId:Long, projectId:Long)
+GET  /user/:userId/project/:projectId/task/new                  controllers.TaskController.showNewTask(userId:Long, projectId:Long)
+GET  /user/:userId/project/:projectId/task/create               controllers.TaskController.create(userId:Long, projectId:Long)
+GET  /user/:userId/project/:projectId/task/:taskId              controllers.TaskController.showTask(userId:Long, projectId:Long, taskId:Long)
+
 
 #MemberContorller
 GET  /user/:userId/project/:projectId/member/list               controllers.MemberController.showProjectMembers(userId:Long, projectId:Long)

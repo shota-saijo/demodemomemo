@@ -1,4 +1,4 @@
-@(projects: List[Project], tasks: List[Task], userId: Long, current_tab: String)(tab_content: Html)
+@(projects: List[Project], tasks: List[Task], user: User, current_tab: String)(tab_content: Html)
 
 @layout("dashboard", script, style) {
 <div style="padding:10px">
@@ -7,6 +7,15 @@
 }
 
 @content={
+<div class="row">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="/user/@user.id">@user.accountId</a></li>
+            <li class="active">ダッシュボード</li>
+        </ol>
+        <hr>
+    </div>
+</div>
 <div class="row">
     <div class="col-sm-12 col-md-6">
         @project_list_panel
@@ -26,7 +35,7 @@
 }
 @project_list_panel={
 <div class="panel panel-default">
-    <a href=@routes.ProjectController.showNewProject(userId) class="btn btn-success header-button pull-right">New Project</a>
+    <a href=@routes.ProjectController.showNewProject(user.id) class="btn btn-success header-button pull-right">New Project</a>
     <div class="panel-heading">
         <h2 class="panel-title">Your Projects <span class="badge">@projects.length</span>
         </h2>
@@ -35,10 +44,10 @@
         <div class="container-fluid">
             <input class="form-control" placeholder="Find a Project..." style="margin-bottom:10px">
             <ul class="nav nav-tabs nav-justified">
-                <li role="presentation" class=@isActive("all")><a href=@routes.DashboardController.showAllProjects(userId)>All</a></li>
-                <li role="presentation" class=@isActive("chief")><a href=@routes.DashboardController.showChiefProjects(userId)>Chief</a></li>
-                <li role="presentation" class=@isActive("admin")><a href=@routes.DashboardController.showAdminProjects(userId)>Admin</a></li>
-                <li role="presentation" class=@isActive("public")><a href=@routes.DashboardController.showPublicProjects(userId)>Member</a></li>
+                <li role="presentation" class=@isActive("all")><a href=@routes.DashboardController.showAllProjects(user.id)>All</a></li>
+                <li role="presentation" class=@isActive("chief")><a href=@routes.DashboardController.showChiefProjects(user.id)>Chief</a></li>
+                <li role="presentation" class=@isActive("admin")><a href=@routes.DashboardController.showAdminProjects(user.id)>Admin</a></li>
+                <li role="presentation" class=@isActive("public")><a href=@routes.DashboardController.showPublicProjects(user.id)>Member</a></li>
             </ul>
             <div class="tab-content">
                 @tab_content
