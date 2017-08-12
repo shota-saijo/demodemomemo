@@ -2,9 +2,7 @@ package models.repository;
 
 import com.google.inject.Inject;
 import models.constant.Constant;
-import models.entity.Member;
-import models.entity.Project;
-import models.entity.User;
+import models.entity.*;
 import models.form.ProjectForm;
 
 import java.time.LocalDate;
@@ -18,14 +16,7 @@ public class ProjectRepository {
     Project project = new Project();
     project.setName(projectForm.getProjectName());
     project.setDescription(projectForm.getDescription());
-    project.setStartDate(
-        projectForm.getStartDate().isEmpty()
-            ? null
-            : LocalDate.parse(projectForm.getStartDate(), Constant.DATE_FORMAT));
-    project.setEndDate(
-        projectForm.getEndDate().isEmpty()
-            ? null
-            : LocalDate.parse(projectForm.getEndDate(), Constant.DATE_FORMAT));
+    project.getLabels().addAll(Label.basicLabel("bug", "enhancement", "improvement", "help", "duplicate", "question"));
     project.setUser(user);
     project.save();
     return project;
@@ -34,14 +25,6 @@ public class ProjectRepository {
   public void update(Project project, ProjectForm projectForm) {
     project.setName(projectForm.getProjectName());
     project.setDescription(projectForm.getDescription());
-    project.setStartDate(
-        projectForm.getStartDate().isEmpty()
-            ? null
-            : LocalDate.parse(projectForm.getStartDate(), Constant.DATE_FORMAT));
-    project.setEndDate(
-        projectForm.getEndDate().isEmpty()
-            ? null
-            : LocalDate.parse(projectForm.getEndDate(), Constant.DATE_FORMAT));
     User user = userRepository.findById(projectForm.chief);
     project.getMembers().add(Member.newAdmin(project.getUser()));
     project.setUser(user);
@@ -51,6 +34,11 @@ public class ProjectRepository {
 
   public void addMember(Project project, Member member) {
     project.getMembers().add(member);
+    project.update();
+  }
+
+  public void addTask(Project project, Task task) {
+    project.getTasks().add(task);
     project.update();
   }
 

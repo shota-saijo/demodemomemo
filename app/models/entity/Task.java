@@ -4,11 +4,8 @@ import com.avaje.ebean.Model;
 import lombok.Getter;
 import lombok.Setter;
 import models.constant.TaskStatus;
-import play.data.format.Formats;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,14 +22,6 @@ public class Task extends Model {
 
   @Column public String contents;
 
-  @Column
-  @Formats.DateTime(pattern = "yyyy-MM-dd")
-  public LocalDate startDate;
-
-  @Column
-  @Formats.DateTime(pattern = "yyyy-MM-dd")
-  public LocalDate endDate;
-
   @Column public TaskStatus status;
 
   @ManyToOne
@@ -47,5 +36,8 @@ public class Task extends Model {
   public List<Comment> comments = new ArrayList<>();
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "task", fetch = FetchType.EAGER)
-  public List<Label> labels = new ArrayList<>();
+  public List<TaskLabel> taskLabels = new ArrayList<>();
+
+  @OneToOne(cascade = CascadeType.ALL)
+  public Milestone milestone;
 }

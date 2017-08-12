@@ -1,6 +1,6 @@
-@(user: User, project: Project)
+@(user: User, project: Project, task: Task)
 
-@layout("new task", script, style) {
+@layout("task", script, style) {
 <div style="padding:10px">
     @content_header
     <div class="content-fluid">
@@ -16,24 +16,42 @@
             <li><a href="/user/@user.id">@user.accountId</a></li>
             <li><a href="@routes.DashboardController.showAllProjects(user.id)">ダッシュボード</a></li>
             <li><a href="@routes.TaskController.showProjectTasks(user.id, project.id)">@project.name</a></li>
-            <li class="active">new task</li>
+            <li class="active">@task.title</li>
         </ol>
     </div>
 </div>
 <hr>
 }
 
+@isSelected(userId: Long) = {
+  @if(task.user.id == userId) {
+    selected
+  }
+}
+
+@isChecked(labelId: Long) = {
+  @for(taskLabel <- task.taskLabels) {
+    @if(taskLabel.label.id == labelId) {
+      checked
+    }
+  }
+}
+
+@isSelectedStatus(status: String) = {
+  @if(task.status.name() == status) {
+    selected
+  }
+}
+
 @content={
-<form action=@routes.TaskController.create(user.id, project.id) method="post" data-toggle="validator">
+<form action=@routes.TaskController.update(user.id, project.id, task.id) method="post" data-toggle="validator">
     <div class="row">
-         <div class="col-md-offset-1 col-md-6">
-            <h2>New Task<p class="small">a Task belong to the project called @project.name</p></h2>
-            <hr>
+        <div class="col-md-offset-1 col-md-6">
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
                         <input class="form-control" id="task_name" name="title"
-                               placeholder="Title"
+                               value="@task.title" placeholder="Title"
                                required  data-required-error="titleは必須です。">
                         <div class="help-block with-errors"></div>
                     </div>
@@ -43,28 +61,47 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <!-- TODO markdown記法が使えるテキストエリアにする -->
-                        <textarea class="form-control" rows="3" id="content" name="content" placeholder="content..."></textarea>
+                        <textarea class="form-control" rows="3" id="content" name="content" placeholder="content..." >@task.contents</textarea>
                     </div>
                 </div>
             </div>
-            <hr>
+            <br>
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label" for="responsible">担当者</label>
-                        <div class="col-md-10">
+                        <label class="col-sm-3 control-label" for="responsible">担当者</label>
+                        <div class="col-md-9">
                             <select id="responsible" class="form-control" name="userId">
-                                <option value=@project.user.id>@project.getUser().getAccountId()</option>
+                                <option value=@project.user.id @isSelected(project.getUser().getId())>@project.getUser().getAccountId()</option>
                                 @for(member <- project.members) {
-                                <option value=@member.user.id>@member.getUser().getAccountId()</option>
+                                <option value=@member.user.id @isSelected(member.getUser().getId())>@member.getUser().getAccountId()</option>
                                 }
                             </select>
                         </div>
                     </div>
                 </div>
             </div>
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="status">ステータス</label>
+                        <div class="col-md-9">
+                            <select id="status" class="form-control" name="status">
+                                <option value="BEFORE_START" @isSelectedStatus("BEFORE_START")>未着手</option>
+                                <option value="START" @isSelectedStatus("START")>着手</option>
+                                <option value="PROCESSING" @isSelectedStatus("PROCESSING")>仕掛中</option>
+                                <option value="BEFORE_CHECK" @isSelectedStatus("BEFORE_CHECK")>確認待ち</option>
+                                <option value="CHECKING" @isSelectedStatus("CHECKING")>確認中</option>
+                                <option value="CHECKED" @isSelectedStatus("CHECKED")>確認済み</option>
+                                <option value="COMPLETE" @isSelectedStatus("COMPLETE")>完了</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <hr>
-            <button class="btn btn-success">create a task</button>
+            <button class="btn btn-success">update a task</button>
         </div>
         <div class="col-md-4">
             <div class="list-group">
@@ -75,7 +112,7 @@
                     <ul class="list-group">
                         @for((label,index) <- project.labels.zipWithIndex) {
                         <li class="list-group-item">
-                            <input type="checkbox" value=@label.id name="labels[@index]"> @label.content
+                            <input type="checkbox" value=@label.id name="labels[@index]" @isChecked(label.id)> @label.content
                         </li>
                         }
                     </ul>

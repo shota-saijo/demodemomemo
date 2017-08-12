@@ -16,8 +16,8 @@
                     <select id="chief" class="form-control" name="chief">
                         <option value=@project.user.id>@project.getUser().getAccountId()</option>
                         @for(member <- project.members) {
-                            @if(member.getRole().name() == "ADMINISTRATOR") {
-                                <option value=@member.user.id>@member.getUser().getAccountId()</option>
+                            @if(member.role.name() == "ADMINISTRATOR") {
+                                <option value=@member.getUser().id>@member.getUser().getAccountId()</option>
                             }
                         }
                     </select>
@@ -36,23 +36,6 @@
             <label for="description">プロジェクト説明<small>(optional)</small></label>
             <!-- TODO markdown記法が使えるテキストエリアにする -->
             <textarea class="form-control" rows="3" id="description" name="description">@project.description</textarea>
-        </div>
-        <hr>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="start-date">開始日<small>(yyyy-MM-dd)</small></label>
-                    <!-- TODO datetimepickerを使用する -->
-                    <input class="form-control datetime-picker" id="start-date" name="startDate" value=@project.startDate>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="end-date">終了日<small>(yyyy-MM-dd)</small></label>
-                    <!-- TODO datetimepickerを使用する -->
-                    <input class="form-control datetime-picker" id="end-date" name="endDate" value=@project.endDate>
-                </div>
-            </div>
         </div>
         <hr>
         <button class="btn btn-success">update a project</button>

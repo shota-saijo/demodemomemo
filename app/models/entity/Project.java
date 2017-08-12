@@ -29,13 +29,8 @@ public class Project extends Model {
   @JoinColumn(name = "user_id")
   public User user;
 
-  @Column
-  @Formats.DateTime(pattern = "yyyy-MM-dd")
-  public LocalDate startDate;
-
-  @Column
-  @Formats.DateTime(pattern = "yyyy-MM-dd")
-  public LocalDate endDate;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "project", fetch = FetchType.EAGER)
+  public List<Milestone> milestones = new ArrayList<>();
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "project", fetch = FetchType.EAGER)
   public List<Label> labels = new ArrayList<>();

@@ -47,7 +47,7 @@
                 <li role="presentation" class=@isActive("all")><a href=@routes.DashboardController.showAllProjects(user.id)>All</a></li>
                 <li role="presentation" class=@isActive("chief")><a href=@routes.DashboardController.showChiefProjects(user.id)>Chief</a></li>
                 <li role="presentation" class=@isActive("admin")><a href=@routes.DashboardController.showAdminProjects(user.id)>Admin</a></li>
-                <li role="presentation" class=@isActive("public")><a href=@routes.DashboardController.showPublicProjects(user.id)>Member</a></li>
+                <li role="presentation" class=@isActive("public")><a href=@routes.DashboardController.showPublicProjects(user.id)>Public</a></li>
             </ul>
             <div class="tab-content">
                 @tab_content
@@ -65,20 +65,26 @@
     <div class="panel-body">
         <div class="container-fluid">
             <input class="form-control" placeholder="Find a Task..." style="margin-bottom:10px">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <tbody>
-                    @for(task <- tasks) {
-                        <tr>
-                            <td>@task.project.name</td>
-                            <td>@task.title</td>
-                            <td>@task.status.name</td>
-                            <td>@task.user.accountId</td>
-                        </tr>
-                    }
-                    </tbody>
-                </table>
-            </div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>プロジェクト</th>
+                        <th>タイトル</th>
+                        <th>ステータス</th>
+                        <th>担当者</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for(task <- tasks) {
+                    <tr class="table-link" data-html=@routes.TaskController.showTask(user.id, task.project.id, task.id)>
+                        <td><code>@task.project.name</code></td>
+                        <td>@task.title</td>
+                        <td><span class="label label-default">@task.status.getText()</span></td>
+                        <td><code>@task.user.accountId</code></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
