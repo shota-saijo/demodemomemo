@@ -5,34 +5,32 @@
 }
 
 @projectTableHeader() = {
-<tr class="row">
-    <th class="col-md-6">プロジェクト名</th>
-    <th class="col-md-3">タスク数</th>
-    <th class="col-md-3">メンバ数</th>
+<tr>
+    <th>プロジェクト名</th>
+    <th>タスク数</th>
+    <th>メンバ数</th>
 </tr>
 }
 
 @projectTableData(projects: List[Project]) = {
 @for(project <- projects) {
-<tr class="row table-link" data-html=@routes.ProjectController.showProject(user.id, project.id)>
-    <td class="col-md-6">@project.getName()</td>
-    <td class="col-md-3">@project.tasks.size</td>
-    <td class="col-md-3">@project.members.size</td>
+<tr class="table-link" data-html=@routes.ProjectController.showProject(user.id, project.id)>
+    <td>@project.getName()</td>
+    <td><span class="badge">@project.tasks.size</span></td>
+    <td><span class="badge">@project.members.size</span></td>
 </tr>
 }
 }
 
 @content = {
 <div class="container-fluid">
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead>
-            @projectTableHeader()
-            </thead>
-            <tbody>
-            @projectTableData(projects)
-            </tbody>
-        </table>
-    </div>
+    <table class="table table-hover">
+        <thead>
+        @projectTableHeader()
+        </thead>
+        <tbody>
+        @projectTableData(projects)
+        </tbody>
+    </table>
 </div>
 }

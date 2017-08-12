@@ -19,6 +19,21 @@ public class ProjectController extends BaseController {
 
   @Transactional
   @Security.Authenticated(UserAuthenticator.class)
+  public Result showProject(Long userId, Long projectId) {
+    if (!isLoggedIn(userId)) {
+      return badRequest("500 your userId is not logged in.");
+    }
+    User user = userRepository.findById(userId);
+    if (user == null) {
+      return notFound("404 user is not found");
+    }
+
+    Project project = projectRepository.findById(projectId);
+    return ok(views.html.edit_project.render(user, project));
+  }
+
+  @Transactional
+  @Security.Authenticated(UserAuthenticator.class)
   public Result showNewProject(Long userId) {
     if (!isLoggedIn(userId)) {
       return badRequest("500 your userId is not logged in.");
@@ -43,21 +58,6 @@ public class ProjectController extends BaseController {
     ProjectForm projectForm = formFactory.form(ProjectForm.class).bindFromRequest().get();
     projectRepository.store(projectForm, user);
     return redirect(routes.DashboardController.showAllProjects(userId));
-  }
-
-  @Transactional
-  @Security.Authenticated(UserAuthenticator.class)
-  public Result showProject(Long userId, Long projectId) {
-    if (!isLoggedIn(userId)) {
-      return badRequest("500 your userId is not logged in.");
-    }
-    User user = userRepository.findById(userId);
-    if (user == null) {
-      return notFound("404 user is not found");
-    }
-
-    Project project = projectRepository.findById(projectId);
-    return ok(views.html.edit_project.render(user, project));
   }
 
   @Transactional
