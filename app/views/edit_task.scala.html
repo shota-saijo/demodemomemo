@@ -60,8 +60,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <!-- TODO markdown記法が使えるテキストエリアにする -->
-                        <textarea class="form-control" rows="3" id="content" name="content" placeholder="content..." >@task.contents</textarea>
+                        <textarea class="form-control" rows="10" id="content" name="content" placeholder="content..." data-provide="markdown">@task.contents</textarea>
                     </div>
                 </div>
             </div>
@@ -112,7 +111,7 @@
                     <ul class="list-group">
                         @for((label,index) <- project.labels.zipWithIndex) {
                         <li class="list-group-item">
-                            <input type="checkbox" value=@label.id name="labels[@index]" @isChecked(label.id)> @label.content
+                            <input type="checkbox" value=@label.id name="labels[@index]" data-label="@label.content" @isChecked(label.id)>
                         </li>
                         }
                     </ul>
@@ -124,7 +123,7 @@
                     <ul class="list-group">
                         @for(milestone <- project.milestones) {
                         <li class="list-group-item">
-                            <input type="radio" value=@milestone.id name="milestone"> @milestone.startDate to @milestone.endDate
+                            <input type="radio" value=@milestone.id name="milestone" data-label="from @milestone.startDate to @milestone.endDate">
                         </li>
                         }
                     </ul>
@@ -137,5 +136,14 @@
 
 
 
-@script={}
+@script={
+<script>
+  $('textarea').markdown({
+    onShow: function(e) {
+      e.showPreview();
+      $('button[title="Preview"]').addClass('active');
+    }
+  })
+</script>
+}
 @style={}

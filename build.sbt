@@ -24,7 +24,9 @@ libraryDependencies ++= Seq(
   "org.webjars" % "bootstrap" % "3.1.1-2",
   "org.webjars.bower" % "bootstrap-validator" % "0.11.9",
   "org.webjars" % "Eonasdan-bootstrap-datetimepicker" % "4.17.43",
-  "org.webjars" % "prettyCheckable" % "1.3"
+  "org.webjars" % "prettyCheckable" % "1.3",
+  "org.webjars" % "markdown-js" % "0.5.0-1",
+  "org.webjars.npm" % "bootstrap-markdown" % "2.9.0"
 )
 
 dependencyOverrides += "org.webjars" % "jquery" % "3.2.1"

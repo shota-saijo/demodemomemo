@@ -35,5 +35,14 @@
 </div>
 }
 
-@script={}
+@script={
+<script>
+  $('textarea').markdown({
+    onShow: function(e) {
+      e.showPreview();
+      $('button[title="Preview"]').addClass('active');
+    }
+  })
+</script>
+}
 @style={}
