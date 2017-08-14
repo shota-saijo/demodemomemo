@@ -8,6 +8,7 @@ create table comment (
   task_id                       bigint,
   content                       varchar(255),
   user_id                       bigint,
+  is_closed                     boolean,
   constraint pk_comment primary key (id)
 );
 create sequence comment_seq;
@@ -42,7 +43,7 @@ create sequence milestone_seq;
 create table project (
   id                            bigint not null,
   name                          varchar(255) not null,
-  description                   varchar(255),
+  description                   varchar(1020),
   user_id                       bigint not null,
   constraint pk_project primary key (id)
 );
@@ -51,7 +52,7 @@ create sequence project_seq;
 create table task (
   id                            bigint not null,
   title                         varchar(255),
-  contents                      varchar(255),
+  contents                      varchar(1020),
   status                        varchar(12),
   project_id                    bigint,
   user_id                       bigint,

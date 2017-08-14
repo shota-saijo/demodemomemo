@@ -7,11 +7,7 @@ import models.constant.MemberRole;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
-@Getter
-@Setter
 @Entity
 public class Member extends Model {
 
@@ -42,5 +38,38 @@ public class Member extends Model {
     member.setUser(user);
     member.setRole(MemberRole.PUBLIC);
     return member;
+  }
+
+  /** Getter and Setter */
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public Project getProject() {
+    return project;
+  }
+
+  public void setProject(Project project) {
+    this.project = project;
+  }
+
+  public User getUser() {
+    return user;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
+
+  public MemberRole getRole() {
+    return role;
+  }
+
+  public void setRole(MemberRole role) {
+    this.role = role;
   }
 }

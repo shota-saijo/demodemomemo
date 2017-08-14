@@ -1,15 +1,9 @@
 package models.entity;
 
 import com.avaje.ebean.Model;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.stream.Collectors;
 
-@Getter
-@Setter
 @Entity
 public class TaskLabel extends Model {
 
@@ -30,5 +24,30 @@ public class TaskLabel extends Model {
     taskLabel.setTask(task);
     taskLabel.setLabel(label);
     return taskLabel;
+  }
+
+  /** Getter and Setter */
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public Task getTask() {
+    return task;
+  }
+
+  public void setTask(Task task) {
+    this.task = task;
+  }
+
+  public Label getLabel() {
+    return label;
+  }
+
+  public void setLabel(Label label) {
+    this.label = label;
   }
 }

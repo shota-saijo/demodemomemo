@@ -25,7 +25,7 @@ public class ProjectRepository {
   public void update(Project project, ProjectForm projectForm) {
     project.setName(projectForm.getProjectName());
     project.setDescription(projectForm.getDescription());
-    User user = userRepository.findById(projectForm.chief);
+    User user = userRepository.findById(projectForm.getChief());
     project.getMembers().add(Member.newAdmin(project.getUser()));
     project.setUser(user);
     project.getMembers().removeIf(member -> member.getUser() == user);

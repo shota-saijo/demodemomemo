@@ -1,16 +1,12 @@
 package models.entity;
 
 import com.avaje.ebean.Model;
-import lombok.Getter;
-import lombok.Setter;
 import models.constant.TaskStatus;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
 @Entity
 public class Task extends Model {
 
@@ -20,7 +16,8 @@ public class Task extends Model {
 
   @Column public String title;
 
-  @Column public String contents;
+  @Column(length = 255 * 4)
+  public String contents;
 
   @Column public TaskStatus status;
 
@@ -40,4 +37,77 @@ public class Task extends Model {
 
   @OneToOne(cascade = CascadeType.ALL)
   public Milestone milestone;
+
+  /** Getter and Setter */
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public String getContents() {
+    return contents;
+  }
+
+  public void setContents(String contents) {
+    this.contents = contents;
+  }
+
+  public TaskStatus getStatus() {
+    return status;
+  }
+
+  public void setStatus(TaskStatus status) {
+    this.status = status;
+  }
+
+  public Project getProject() {
+    return project;
+  }
+
+  public void setProject(Project project) {
+    this.project = project;
+  }
+
+  public User getUser() {
+    return user;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
+
+  public List<Comment> getComments() {
+    return comments;
+  }
+
+  public void setComments(List<Comment> comments) {
+    this.comments = comments;
+  }
+
+  public List<TaskLabel> getTaskLabels() {
+    return taskLabels;
+  }
+
+  public void setTaskLabels(List<TaskLabel> taskLabels) {
+    this.taskLabels = taskLabels;
+  }
+
+  public Milestone getMilestone() {
+    return milestone;
+  }
+
+  public void setMilestone(Milestone milestone) {
+    this.milestone = milestone;
+  }
 }
