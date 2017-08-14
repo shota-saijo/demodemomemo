@@ -1,25 +1,72 @@
 package models.entity;
 
 import com.avaje.ebean.Model;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
-@Setter
 public class Comment extends Model {
 
-  @Id @GeneratedValue public Long id;
+  @Id @GeneratedValue private Long id;
 
   @ManyToOne
   @JoinColumn(name = "task_id")
-  public Task task;
+  private Task task;
 
-  @Column public String content;
+  @Column private String content;
 
   @ManyToOne
   @JoinColumn(name = "user_id")
-  public User user;
+  private User user;
+
+  @Column private boolean isClosed;
+
+  public static Comment newInstance(String content, User user) {
+    Comment comment = new Comment();
+    comment.setContent(content);
+    comment.setUser(user);
+    comment.setClosed(false);
+    return comment;
+  }
+
+  /** Getter and Setter */
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public Task getTask() {
+    return task;
+  }
+
+  public void setTask(Task task) {
+    this.task = task;
+  }
+
+  public String getContent() {
+    return content;
+  }
+
+  public void setContent(String content) {
+    this.content = content;
+  }
+
+  public User getUser() {
+    return user;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
+
+  public boolean isClosed() {
+    return isClosed;
+  }
+
+  public void setClosed(boolean closed) {
+    isClosed = closed;
+  }
 }

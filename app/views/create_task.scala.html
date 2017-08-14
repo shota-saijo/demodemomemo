@@ -10,23 +10,19 @@
 }
 
 @content_header={
-<div class="row">
-    <div class="col-md-offset-1 col-md-10">
-        <ol class="breadcrumb">
-            <li><a href="/user/@user.id">@user.accountId</a></li>
-            <li><a href="@routes.DashboardController.showAllProjects(user.id)">ダッシュボード</a></li>
-            <li><a href="@routes.TaskController.showProjectTasks(user.id, project.id)">@project.name</a></li>
-            <li class="active">new task</li>
-        </ol>
-    </div>
-</div>
+<ol class="breadcrumb">
+    <li><a href="/user/@user.id">@user.accountId</a></li>
+    <li><a href="@routes.DashboardController.showAllProjects(user.id)">ダッシュボード</a></li>
+    <li><a href="@routes.TaskController.showProjectTasks(user.id, project.id)">@project.name</a></li>
+    <li class="active">new task</li>
+</ol>
 <hr>
 }
 
 @content={
 <form action=@routes.TaskController.create(user.id, project.id) method="post" data-toggle="validator">
     <div class="row">
-         <div class="col-md-offset-1 col-md-6">
+        <div class="col-md-9">
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
@@ -40,31 +36,28 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <textarea class="form-control" rows="10" id="content" name="content" placeholder="content..." data-provide="markdown"></textarea>
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="responsible">担当者</label>
-                        <div class="col-md-10">
-                            <select id="responsible" class="form-control" name="userId">
-                                <option value=@project.user.id>@project.getUser().getAccountId()</option>
-                                @for(member <- project.members) {
-                                <option value=@member.user.id>@member.getUser().getAccountId()</option>
-                                }
-                            </select>
-                        </div>
+                        <textarea class="form-control" id="content" name="content" placeholder="content..." data-provide="markdown"></textarea>
                     </div>
                 </div>
             </div>
             <hr>
             <button class="btn btn-success">create a task</button>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="list-group">
+                <a class="list-group-item" data-toggle="collapse" href="#collapse_chief">
+                    <h4 class="list-group-item-header">担当者</h4>
+                </a>
+                <div class="collapse in" id="collapse_chief">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <input type="radio" value=@project.getUser().getId() name="userId" data-label="@project.getUser().getAccountId()" checked>
+                            @for(member <- project.members) {
+                            <input type="radio" value=@member.getUser().getId() name="userId" data-label="@member.getUser().getAccountId()">
+                            }
+                        </li>
+                    </ul>
+                </div>
                 <a class="list-group-item" data-toggle="collapse" href="#collapse_labels">
                     <h4 class="list-group-item-header">label</h4>
                 </a>
@@ -72,7 +65,7 @@
                     <ul class="list-group">
                         @for((label,index) <- project.labels.zipWithIndex) {
                         <li class="list-group-item">
-                            <input type="checkbox" value=@label.id name="labels[@index]"> @label.content
+                            <input type="checkbox" value=@label.id name="labels[@index]" data-label="@label.content">
                         </li>
                         }
                     </ul>

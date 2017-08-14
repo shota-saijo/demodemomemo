@@ -1,18 +1,12 @@
 package models.entity;
 
 import com.avaje.ebean.Model;
-import lombok.Getter;
-import lombok.Setter;
-import play.data.format.Formats;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
 @Entity
 public class Project extends Model {
 
@@ -22,7 +16,7 @@ public class Project extends Model {
 
   @NotNull @Column public String name;
 
-  @Column public String description;
+  @Column(length = 255 * 4) public String description;
 
   @NotNull
   @ManyToOne
@@ -40,4 +34,70 @@ public class Project extends Model {
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "project", fetch = FetchType.EAGER)
   public List<Task> tasks = new ArrayList<>();
+
+
+  /** Getter and Setter */
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public User getUser() {
+    return user;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
+
+  public List<Milestone> getMilestones() {
+    return milestones;
+  }
+
+  public void setMilestones(List<Milestone> milestones) {
+    this.milestones = milestones;
+  }
+
+  public List<Label> getLabels() {
+    return labels;
+  }
+
+  public void setLabels(List<Label> labels) {
+    this.labels = labels;
+  }
+
+  public List<Member> getMembers() {
+    return members;
+  }
+
+  public void setMembers(List<Member> members) {
+    this.members = members;
+  }
+
+  public List<Task> getTasks() {
+    return tasks;
+  }
+
+  public void setTasks(List<Task> tasks) {
+    this.tasks = tasks;
+  }
 }

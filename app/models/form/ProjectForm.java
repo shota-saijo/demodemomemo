@@ -1,19 +1,55 @@
 package models.form;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 public class ProjectForm {
 
-    public String projectName;
+  private String projectName;
 
-    public String description;
+  private String description;
 
-    public String startDate;
+  private String startDate;
 
-    public String endDate;
+  private String endDate;
 
-    public Long chief;
+  private Long chief;
+
+  /** Getter and Setter */
+  public String getProjectName() {
+    return projectName;
+  }
+
+  public void setProjectName(String projectName) {
+    this.projectName = projectName;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public String getStartDate() {
+    return startDate;
+  }
+
+  public void setStartDate(String startDate) {
+    this.startDate = startDate;
+  }
+
+  public String getEndDate() {
+    return endDate;
+  }
+
+  public void setEndDate(String endDate) {
+    this.endDate = endDate;
+  }
+
+  public Long getChief() {
+    return chief;
+  }
+
+  public void setChief(Long chief) {
+    this.chief = chief;
+  }
 }

@@ -6,4 +6,6 @@ $(document).ready(function() {
 
   $('input[type="checkbox"]').prettyCheckable();
   $('input[type="radio"]').prettyCheckable();
+
+  autosize($('textarea'));
 })

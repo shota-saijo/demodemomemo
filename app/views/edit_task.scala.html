@@ -10,16 +10,12 @@
 }
 
 @content_header={
-<div class="row">
-    <div class="col-md-offset-1 col-md-10">
-        <ol class="breadcrumb">
-            <li><a href="/user/@user.id">@user.accountId</a></li>
-            <li><a href="@routes.DashboardController.showAllProjects(user.id)">ダッシュボード</a></li>
-            <li><a href="@routes.TaskController.showProjectTasks(user.id, project.id)">@project.name</a></li>
-            <li class="active">@task.title</li>
-        </ol>
-    </div>
-</div>
+<ol class="breadcrumb">
+    <li><a href="/user/@user.id">@user.accountId</a></li>
+    <li><a href="@routes.DashboardController.showAllProjects(user.id)">ダッシュボード</a></li>
+    <li><a href="@routes.TaskController.showProjectTasks(user.id, project.id)">@project.name</a></li>
+    <li class="active">@task.title</li>
+</ol>
 <hr>
 }
 
@@ -37,113 +33,144 @@
   }
 }
 
-@isSelectedStatus(status: String) = {
+@isCheckedStatus(status: String) = {
   @if(task.status.name() == status) {
-    selected
+    checked
   }
 }
 
 @content={
-<form action=@routes.TaskController.update(user.id, project.id, task.id) method="post" data-toggle="validator">
-    <div class="row">
-        <div class="col-md-offset-1 col-md-6">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <input class="form-control" id="task_name" name="title"
-                               value="@task.title" placeholder="Title"
-                               required  data-required-error="titleは必須です。">
-                        <div class="help-block with-errors"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <textarea class="form-control" rows="10" id="content" name="content" placeholder="content..." data-provide="markdown">@task.contents</textarea>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" for="responsible">担当者</label>
-                        <div class="col-md-9">
-                            <select id="responsible" class="form-control" name="userId">
-                                <option value=@project.user.id @isSelected(project.getUser().getId())>@project.getUser().getAccountId()</option>
-                                @for(member <- project.members) {
-                                <option value=@member.user.id @isSelected(member.getUser().getId())>@member.getUser().getAccountId()</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" for="status">ステータス</label>
-                        <div class="col-md-9">
-                            <select id="status" class="form-control" name="status">
-                                <option value="BEFORE_START" @isSelectedStatus("BEFORE_START")>未着手</option>
-                                <option value="START" @isSelectedStatus("START")>着手</option>
-                                <option value="PROCESSING" @isSelectedStatus("PROCESSING")>仕掛中</option>
-                                <option value="BEFORE_CHECK" @isSelectedStatus("BEFORE_CHECK")>確認待ち</option>
-                                <option value="CHECKING" @isSelectedStatus("CHECKING")>確認中</option>
-                                <option value="CHECKED" @isSelectedStatus("CHECKED")>確認済み</option>
-                                <option value="COMPLETE" @isSelectedStatus("COMPLETE")>完了</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <button class="btn btn-success">update a task</button>
+<form id="update_task" action=@routes.TaskController.update(user.id, project.id, task.id) method="post" data-toggle="validator">
+</form>
+<form id="add_comment" action=@routes.CommentController.create(user.id, project.id, task.id) method="post" data-toggle="validator">
+</form>
+<div class="row">
+    <div class="col-md-9">
+        <div class="form-group">
+            <input class="form-control" id="task_name" name="title" form="update_task"
+                   value="@task.title" placeholder="Title"
+                   required  data-required-error="titleは必須です。">
+            <div class="help-block with-errors"></div>
         </div>
-        <div class="col-md-4">
-            <div class="list-group">
-                <a class="list-group-item" data-toggle="collapse" href="#collapse_labels">
-                    <h4 class="list-group-item-header">label</h4>
-                </a>
-                <div class="collapse" id="collapse_labels">
-                    <ul class="list-group">
-                        @for((label,index) <- project.labels.zipWithIndex) {
-                        <li class="list-group-item">
-                            <input type="checkbox" value=@label.id name="labels[@index]" data-label="@label.content" @isChecked(label.id)>
-                        </li>
-                        }
-                    </ul>
+    </div>
+    <div class="col-md-3">
+        <button class="btn btn-success" form="update_task">update a task</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-9">
+        <div class="form-group">
+            <textarea class="form-control" id="content" name="content" placeholder="content..." data-provide="markdown" form="update_task">@task.contents</textarea>
+        </div>
+        <hr>
+        @for(comment <- task.getComments()) {
+        <form id="update_comment@comment.getId()" action=@routes.CommentController.update(user.getId(), project.getId(), task.getId(), comment.getId()) method="post" data-toggle="validator"></form>
+        <form id="remove_comment@comment.getId()" action=@routes.CommentController.remove(user.getId(), project.getId(), task.getId(), comment.getId()) method="post" data-toggle="validator"></form>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h5 class="panel-title">author : @comment.getUser().getAccountId()</h5>
+            </div>
+            @if(comment.isClosed()) {
+                <div class="panel-body">このコメントは削除されました。</div>
+            } else {
+                <textarea class="form-control" name="comment" placeholder="comment..." data-provide="markdown" form="update_comment@comment.getId()">@comment.getContent()</textarea>
+                @if(comment.getUser().getId() == user.getId()) {
+                <div class="panel-footer">
+                    <button class="btn btn-success" form="update_comment@comment.getId()">update a comment</button>
+                    <button class="btn btn-warning" form="remove_comment@comment.getId()">remove a comment</button>
                 </div>
-                <a class="list-group-item" data-toggle="collapse" href="#collapse_milestones">
-                    <h4 class="list-group-item-header">milestone</h4>
-                </a>
-                <div class="collapse" id="collapse_milestones">
-                    <ul class="list-group">
-                        @for(milestone <- project.milestones) {
-                        <li class="list-group-item">
-                            <input type="radio" value=@milestone.id name="milestone" data-label="from @milestone.startDate to @milestone.endDate">
-                        </li>
-                        }
-                    </ul>
-                </div>
+                }
+            }
+        </div>
+        }
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h5 class="panel-title">author : @user.getAccountId()</h5>
+            </div>
+            <textarea class="form-control" name="new_comment" placeholder="comment..." data-provide="markdown" form="add_comment"></textarea>
+            <div class="panel-footer">
+                <button class="btn btn-success" form="add_comment">add a comment</button>
             </div>
         </div>
     </div>
-</form>
+    <div class="col-md-3">
+        <div class="list-group">
+            <a class="list-group-item" data-toggle="collapse" href="#collapse_chief">
+                <h4 class="list-group-item-header">担当者</h4>
+            </a>
+            <div class="collapse in" id="collapse_chief">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <input type="radio" value=@project.getUser().getId() name="userId" form="update_task" data-label="@project.getUser().getAccountId()" checked>
+                    </li>
+                    @for(member <- project.members) {
+                    <li class="list-group-item">
+                        <input type="radio" value=@member.getUser().getId() name="userId" form="update_task" data-label="@member.getUser().getAccountId()">
+                    </li>
+                    }
+                </ul>
+            </div>
+            <a class="list-group-item" data-toggle="collapse" href="#collapse_status">
+                <h4 class="list-group-item-header">Status</h4>
+            </a>
+            <div class="collapse in" id="collapse_status">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <input type="radio" value="BEFORE_START" name="status" form="update_task" data-label="未着手" @isCheckedStatus("BEFORE_START")>
+                        <input type="radio" value="START" name="status" form="update_task" data-label="着手" @isCheckedStatus("START")>
+                        <input type="radio" value="PROCESSING" name="status" form="update_task" data-label="仕掛中" @isCheckedStatus("PROCESSING")>
+                        <input type="radio" value="BEFORE_CHECK" name="status" form="update_task" data-label="確認待ち" @isCheckedStatus("BEFORE_CHECK")>
+                        <input type="radio" value="CHECKING" name="status" form="update_task" data-label="確認中" @isCheckedStatus("CHECKING")>
+                        <input type="radio" value="CHECKED" name="status" form="update_task" data-label="確認済み" @isCheckedStatus("CHECKED")>
+                        <input type="radio" value="COMPLETE" name="status" form="update_task" data-label="完了" @isCheckedStatus("COMPLETE")>
+                    </li>
+                </ul>
+            </div>
+            <a class="list-group-item" data-toggle="collapse" href="#collapse_labels">
+                <h4 class="list-group-item-header">label</h4>
+            </a>
+            <div class="collapse" id="collapse_labels">
+                <ul class="list-group">
+                    @for((label,index) <- project.labels.zipWithIndex) {
+                    <li class="list-group-item">
+                        <input type="checkbox" value=@label.id name="labels[@index]" form="update_task" data-label="@label.content" @isChecked(label.id)>
+                    </li>
+                    }
+                </ul>
+            </div>
+            <a class="list-group-item" data-toggle="collapse" href="#collapse_milestones">
+                <h4 class="list-group-item-header">milestone</h4>
+            </a>
+            <div class="collapse" id="collapse_milestones">
+                <ul class="list-group">
+                    @for(milestone <- project.milestones) {
+                    <li class="list-group-item">
+                        <input type="radio" value=@milestone.id name="milestone" form="update_task" data-label="from @milestone.startDate to @milestone.endDate">
+                    </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 }
 
 
 
 @script={
 <script>
-  $('textarea').markdown({
+  $('textarea#content').markdown({
     onShow: function(e) {
       e.showPreview();
       $('button[title="Preview"]').addClass('active');
     }
-  })
+  });
+  $('textarea[name="comment"]').markdown({
+    onShow: function(e) {
+      e.showPreview();
+      $('button[title="Preview"]').addClass('active');
+    }
+  });
 </script>
 }
 @style={}

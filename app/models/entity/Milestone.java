@@ -1,16 +1,12 @@
 package models.entity;
 
 import com.avaje.ebean.Model;
-import lombok.Getter;
-import lombok.Setter;
 import play.data.format.Formats;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Getter
-@Setter
 public class Milestone extends Model {
 
   public static final Finder<Long, Milestone> find = new Finder<>(Milestone.class);
@@ -28,4 +24,37 @@ public class Milestone extends Model {
   @Column
   @Formats.DateTime(pattern = "yyyy-MM-dd")
   public LocalDate endDate;
+
+  /** Getter and Setter */
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public Project getProject() {
+    return project;
+  }
+
+  public void setProject(Project project) {
+    this.project = project;
+  }
+
+  public LocalDate getStartDate() {
+    return startDate;
+  }
+
+  public void setStartDate(LocalDate startDate) {
+    this.startDate = startDate;
+  }
+
+  public LocalDate getEndDate() {
+    return endDate;
+  }
+
+  public void setEndDate(LocalDate endDate) {
+    this.endDate = endDate;
+  }
 }

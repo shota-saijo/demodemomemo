@@ -30,8 +30,8 @@ public class TaskRepository {
           task,
           Stream.of(taskForm.getLabels()).filter(id -> id != null).collect(Collectors.toList()));
     }
-    if (taskForm.milestone != null) {
-      task.setMilestone(milestoneRepository.findById(taskForm.milestone));
+    if (taskForm.getMilestone() != null) {
+      task.setMilestone(milestoneRepository.findById(taskForm.getMilestone()));
     }
     task.save();
     return task;
@@ -47,18 +47,39 @@ public class TaskRepository {
           task,
           Stream.of(taskForm.getLabels()).filter(id -> id != null).collect(Collectors.toList()));
     }
-    if (taskForm.milestone != null) {
-      task.setMilestone(milestoneRepository.findById(taskForm.milestone));
+    if (taskForm.getMilestone() != null) {
+      task.setMilestone(milestoneRepository.findById(taskForm.getMilestone()));
     }
+    task.update();
+  }
+
+  public void AddComment(Task task, String content, User user) {
+    task.getComments().add(Comment.newInstance(content, user));
+    task.update();
+  }
+
+  public void updateComment(Task task, String content, Long commentId) {
+    task.getComments()
+        .stream()
+        .filter(comment -> comment.getId() == commentId)
+        .findFirst()
+        .orElseThrow(IllegalArgumentException::new)
+        .setContent(content);
+    task.update();
+  }
+
+  public void removeComment(Task task, Long commentId) {
+    task.getComments()
+        .stream()
+        .filter(comment -> comment.getId() == commentId)
+        .findFirst()
+        .orElseThrow(IllegalArgumentException::new)
+        .setClosed(true);
     task.update();
   }
 
   public Task findById(Long id) {
     return Task.find.byId(id);
-  }
-
-  public List<Task> findByMember(Member member) {
-    return Task.find.where().eq("member", member).findList();
   }
 
   private void setLabel(Task task, List<Long> labelIds) {

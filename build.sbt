@@ -14,7 +14,6 @@ libraryDependencies ++= Seq(
   cache,
   javaWs,
   javaJpa,
-  "org.projectlombok" % "lombok" % "1.16.10",
   "org.mindrot" % "jbcrypt" % "0.3m"
 )
 
@@ -25,8 +24,9 @@ libraryDependencies ++= Seq(
   "org.webjars.bower" % "bootstrap-validator" % "0.11.9",
   "org.webjars" % "Eonasdan-bootstrap-datetimepicker" % "4.17.43",
   "org.webjars" % "prettyCheckable" % "1.3",
-  "org.webjars" % "markdown-js" % "0.5.0-1",
-  "org.webjars.npm" % "bootstrap-markdown" % "2.9.0"
+  "org.webjars" % "marked" % "0.3.2-1",
+  "org.webjars.npm" % "bootstrap-markdown" % "2.9.0",
+  "org.webjars.npm" % "autosize" % "4.0.0"
 )
 
 dependencyOverrides += "org.webjars" % "jquery" % "3.2.1"
