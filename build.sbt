@@ -26,6 +26,7 @@ libraryDependencies ++= Seq(
   "org.webjars" % "prettyCheckable" % "1.3",
   "org.webjars" % "marked" % "0.3.2-1",
   "org.webjars.npm" % "bootstrap-markdown" % "2.9.0",
+  "org.webjars" % "bootstrap-select" % "1.12.2",
   "org.webjars.npm" % "autosize" % "4.0.0"
 )
 

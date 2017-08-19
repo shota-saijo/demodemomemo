@@ -49,7 +49,7 @@
         <div class="form-group">
             <input class="form-control" id="task_name" name="title" form="update_task"
                    value="@task.title" placeholder="Title"
-                   required  data-required-error="titleは必須です。">
+                   required data-required-error="titleは必須です。">
             <div class="help-block with-errors"></div>
         </div>
     </div>
@@ -133,7 +133,7 @@
                 <ul class="list-group">
                     @for((label,index) <- project.labels.zipWithIndex) {
                     <li class="list-group-item">
-                        <input type="checkbox" value=@label.id name="labels[@index]" form="update_task" data-label="@label.content" @isChecked(label.id)>
+                        <input type="checkbox" value=@label.id name="labels[@index]" form="update_task" data-label="<span class='label label-@label.getColor().getText()'>@label.getContent()</span>" @isChecked(label.id)>
                     </li>
                     }
                 </ul>

@@ -14,13 +14,11 @@ GET  /user/:userId/dashboard/chief                                              
 GET  /user/:userId/dashboard/admin                                              controllers.DashboardController.showAdminProjects(userId:Long)
 GET  /user/:userId/dashboard/public                                             controllers.DashboardController.showPublicProjects(userId:Long)
 
-
 #ProjectContorller
 GET  /user/:userId/project/new                                                  controllers.ProjectController.showNewProject(userId:Long)
 POST /user/:userId/project/create                                               controllers.ProjectController.create(userId:Long)
 GET  /user/:userId/project/:projectId                                           controllers.ProjectController.showProject(userId:Long, projectId:Long)
 POST /user/:userId/project/:projectId/update                                    controllers.ProjectController.update(userId:Long, projectId:Long)
-
 
 #TaskController
 GET  /user/:userId/project/:projectId/task/list                                 controllers.TaskController.showProjectTasks(userId:Long, projectId:Long)
@@ -34,7 +32,6 @@ POST /user/:userId/project/:projectId/task/:taskId/comment/create               
 POST /user/:userId/project/:projectId/task/:taskId/comment/:commentId/update    controllers.CommentController.update(userId:Long, projectId:Long, taskId:Long, commentId:Long)
 POST /user/:userId/project/:projectId/task/:taskId/comment/:commentId/delete    controllers.CommentController.remove(userId:Long, projectId:Long, taskId:Long, commentId:Long)
 
-
 #MemberContorller
 GET  /user/:userId/project/:projectId/member/list                               controllers.MemberController.showProjectMembers(userId:Long, projectId:Long)
 GET  /user/:userId/project/:projectId/member/search                             controllers.MemberController.searchUser(userId:Long, projectId:Long)
@@ -42,8 +39,15 @@ POST /user/:userId/project/:projectId/member/create                             
 POST /user/:userId/project/:projectId/member/:memberId/update                   controllers.MemberController.update(userId:Long, projectId:Long, memberId:Long)
 POST /user/:userId/project/:projectId/member/:memberId/delete                   controllers.MemberController.remove(userId:Long, projectId:Long, memberId:Long)
 
+#MilestoneController
+GET  /user/:userId/project/:projectId/milestone/list                                controllers.MilestoneController.show(userId:Long, projectId:Long)
+POST /user/:userId/project/:projectId/milestone/create                              controllers.MilestoneController.create(userId:Long, projectId:Long)
+POST /user/:userId/project/:projectId/milestone/:milestoneId/delete                 controllers.MilestoneController.remove(userId:Long, projectId:Long, milestoneId:Long)
 
-
+#LabelController
+GET  /user/:userId/project/:projectId/label/list                                controllers.LabelController.show(userId:Long, projectId:Long)
+POST /user/:userId/project/:projectId/label/create                              controllers.LabelController.create(userId:Long, projectId:Long)
+POST /user/:userId/project/:projectId/label/:labelId/delete                     controllers.LabelController.remove(userId:Long, projectId:Long, labelId:Long)
 
 # Map static resources from the /public folder to the /assets URL path
-GET  /assets/*file                                                      controllers.Assets.versioned(path="/public", file: Asset)
+GET  /assets/*file                                                              controllers.Assets.versioned(path="/public", file: Asset)

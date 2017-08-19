@@ -1,0 +1,64 @@
+@(user: User, project: Project, labels: List[Label])
+
+@layout("task", script, style) {
+<div style="padding:10px">
+    @content_header
+    <div class="content-fluid">
+        @content
+    </div>
+</div>
+}
+
+@content_header={
+<ol class="breadcrumb">
+    <li><a href="/user/@user.id">@user.accountId</a></li>
+    <li><a href="@routes.DashboardController.showAllProjects(user.id)">ダッシュボード</a></li>
+    <li><a href="@routes.TaskController.showProjectTasks(user.id, project.id)">@project.name</a></li>
+    <li class="active">ラベル</li>
+</ol>
+<hr>
+}
+
+@content={
+<form action="@routes.LabelController.create(user.getId(), project.getId())" method="post" data-toggle="validator">
+    <div class="row">
+        <div class="col-md-5">
+            <input class="form-control" name="content" placeholder="content" required data-required-error="contentは必須です。">
+        </div>
+        <div class="col-md-5">
+            <select class="form-control selectpicker" name="color">
+                <option data-content="<span class='label label-default'>Default</span>" value="default">Default</option>
+                <option data-content="<span class='label label-primary'>Primary</span>" value="primary">Primary</option>
+                <option data-content="<span class='label label-success'>Success</span>" value="success">Success</option>
+                <option data-content="<span class='label label-info'>Info</span>" value="info">Info</option>
+                <option data-content="<span class='label label-warning'>Warning</span>" value="warning">Warning</option>
+                <option data-content="<span class='label label-danger'>Danger</span>" value="danger">Danger</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-success">create</button>
+        </div>
+    </div>
+</form>
+<hr>
+<div class="table-responsive">
+    <table class="table">
+        <tbody>
+            @for(label <- labels) {
+            <tr class="row">
+                <td class="col-md-5">@label.getContent()</td>
+                <td class="col-md-5"><span class="label label-@label.getColor().getText()">@label.getContent()</span></td>
+                <td class="col-md-2">
+                    <form action="@routes.LabelController.remove(user.getId(), project.getId(), label.getId())" method="post">
+                        <button class="btn btn-warning">remove</button>
+                    </form>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+}
+
+@script={}
+@style={}

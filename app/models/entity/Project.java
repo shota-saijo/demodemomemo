@@ -1,11 +1,18 @@
 package models.entity;
 
 import com.avaje.ebean.Model;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Project extends Model {
@@ -16,7 +23,8 @@ public class Project extends Model {
 
   @NotNull @Column public String name;
 
-  @Column(length = 255 * 4) public String description;
+  @Column(length = 255 * 4)
+  public String description;
 
   @NotNull
   @ManyToOne
@@ -34,7 +42,6 @@ public class Project extends Model {
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "project", fetch = FetchType.EAGER)
   public List<Task> tasks = new ArrayList<>();
-
 
   /** Getter and Setter */
   public Long getId() {

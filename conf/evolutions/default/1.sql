@@ -16,7 +16,9 @@ create sequence comment_seq;
 create table label (
   id                            bigint not null,
   content                       varchar(255),
+  color                         varchar(7),
   project_id                    bigint,
+  constraint ck_label_color check (color in ('danger','success','primary','info','warning','default')),
   constraint pk_label primary key (id)
 );
 create sequence label_seq;

@@ -65,7 +65,7 @@
                     <ul class="list-group">
                         @for((label,index) <- project.labels.zipWithIndex) {
                         <li class="list-group-item">
-                            <input type="checkbox" value=@label.id name="labels[@index]" data-label="@label.content">
+                            <input type="checkbox" value=@label.id name="labels[@index]" data-label="<span class='label label-@label.getColor().getText()'>@label.getContent()</span>">
                         </li>
                         }
                     </ul>

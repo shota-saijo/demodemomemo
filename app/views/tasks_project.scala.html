@@ -13,8 +13,8 @@
             <input class="form-control" placeholder="Find a Task...">
         </div>
         <div class="col-md-6">
-            <a href="#" class="btn btn-default">Labels</a>
-            <a href="#" class="btn btn-default">Milestone</a>
+            <a href="@routes.LabelController.show(user.id, project.id)" class="btn btn-default">Labels</a>
+            <a href="@routes.MilestoneController.show(user.id, project.id)" class="btn btn-default">Milestone</a>
             <a href=@routes.TaskController.showNewTask(user.id, project.id) class="btn btn-success pull-right">New Task</a>
         </div>
     </div>
@@ -46,7 +46,7 @@
                             </div>
                             <div class="col-md-2">
                                 @for(taskLabel <- task.taskLabels) {
-                                <span class="label label-default">@taskLabel.getLabel().getContent()</span>
+                                <span class="label label-@taskLabel.getLabel().getColor().getText()">@taskLabel.getLabel().getContent()</span>
                                 }
                             </div>
                             <div class="col-md-2">
