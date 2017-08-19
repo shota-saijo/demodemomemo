@@ -1,12 +1,13 @@
 package models.repository;
 
 import com.google.inject.Inject;
-import models.constant.Constant;
-import models.entity.*;
-import models.form.ProjectForm;
-
-import java.time.LocalDate;
 import java.util.List;
+import models.entity.Label;
+import models.entity.Member;
+import models.entity.Project;
+import models.entity.Task;
+import models.entity.User;
+import models.form.ProjectForm;
 
 public class ProjectRepository {
 
@@ -16,7 +17,7 @@ public class ProjectRepository {
     Project project = new Project();
     project.setName(projectForm.getProjectName());
     project.setDescription(projectForm.getDescription());
-    project.getLabels().addAll(Label.basicLabel("bug", "enhancement", "improvement", "help", "duplicate", "question"));
+    project.getLabels().addAll(Label.basicLabel());
     project.setUser(user);
     project.save();
     return project;
@@ -39,6 +40,16 @@ public class ProjectRepository {
 
   public void addTask(Project project, Task task) {
     project.getTasks().add(task);
+    project.update();
+  }
+
+  public void addLabel(Project project, Label label) {
+    project.getLabels().add(label);
+    project.update();
+  }
+
+  public void removeLabel(Project project, Long labelId) {
+    project.getLabels().removeIf(label -> label.getId() == labelId);
     project.update();
   }
 

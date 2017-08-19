@@ -1,10 +1,14 @@
 package models.entity;
 
 import com.avaje.ebean.Model;
-import play.data.format.Formats;
-
-import javax.persistence.*;
 import java.time.LocalDate;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import play.data.format.Formats;
 
 @Entity
 public class Milestone extends Model {
