@@ -1,6 +1,6 @@
-@(user: User, project: Project, labels: List[Label])
+@(user: User, project: Project)
 
-@layout("task", script, style) {
+@layout("label", script, style) {
 <div style="padding:10px">
     @content_header
     <div class="content-fluid">
@@ -44,7 +44,7 @@
 <div class="table-responsive">
     <table class="table">
         <tbody>
-            @for(label <- labels) {
+            @for(label <- project.getLabels()) {
             <tr class="row">
                 <td class="col-md-5">@label.getContent()</td>
                 <td class="col-md-5"><span class="label label-@label.getColor().getText()">@label.getContent()</span></td>

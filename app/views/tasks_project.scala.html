@@ -35,13 +35,14 @@
                     </div>
                 </div>
                 <div class="list-group">
-                    @for(task <- project.tasks) {
+                    @for(task <- project.getTasks()) {
                     <a class="list-group-item" href=@routes.TaskController.showTask(user.id, project.id, task.id)>
                         <div class="row">
                             <div class="col-md-6">
                                 <h4 class="list-group-item-heading">@task.title</h4>
-                                @if(task.milestone != null) {
-                                <p class="list-group-item-text">@task.milestone.startDate to @task.milestone.endDate by @task.user.accountId</p>
+                                <p class="list-group-item-text">担当者 : @task.getUser().getAccountId()</p>
+                                @if(task.getMilestone() != null) {
+                                <p class="list-group-item-text">milestone : @task.getMilestone().getName()</p>
                                 }
                             </div>
                             <div class="col-md-2">

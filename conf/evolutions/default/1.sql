@@ -35,9 +35,10 @@ create sequence member_seq;
 
 create table milestone (
   id                            bigint not null,
-  project_id                    bigint,
+  name                          varchar(255),
   start_date                    date,
   end_date                      date,
+  project_id                    bigint,
   constraint pk_milestone primary key (id)
 );
 create sequence milestone_seq;
@@ -60,7 +61,6 @@ create table task (
   user_id                       bigint,
   milestone_id                  bigint,
   constraint ck_task_status check (status in ('complete','before_start','processing','before_check','start','checking','checked')),
-  constraint uq_task_milestone_id unique (milestone_id),
   constraint pk_task primary key (id)
 );
 create sequence task_seq;
@@ -110,6 +110,7 @@ alter table task add constraint fk_task_user_id foreign key (user_id) references
 create index ix_task_user_id on task (user_id);
 
 alter table task add constraint fk_task_milestone_id foreign key (milestone_id) references milestone (id) on delete restrict on update restrict;
+create index ix_task_milestone_id on task (milestone_id);
 
 alter table task_label add constraint fk_task_label_task_id foreign key (task_id) references task (id) on delete restrict on update restrict;
 create index ix_task_label_task_id on task_label (task_id);
@@ -148,6 +149,7 @@ alter table task drop constraint if exists fk_task_user_id;
 drop index if exists ix_task_user_id;
 
 alter table task drop constraint if exists fk_task_milestone_id;
+drop index if exists ix_task_milestone_id;
 
 alter table task_label drop constraint if exists fk_task_label_task_id;
 drop index if exists ix_task_label_task_id;

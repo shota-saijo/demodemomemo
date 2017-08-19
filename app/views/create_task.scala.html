@@ -77,7 +77,7 @@
                     <ul class="list-group">
                         @for(milestone <- project.milestones) {
                         <li class="list-group-item">
-                            <input type="radio" value=@milestone.id name="milestone"> @milestone.startDate to @milestone.endDate
+                            <input type="radio" value=@milestone.id name="milestone" data-label="@milestone.getName()">
                         </li>
                         }
                     </ul>

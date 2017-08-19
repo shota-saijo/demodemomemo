@@ -43,7 +43,8 @@ public class Task extends Model {
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "task", fetch = FetchType.EAGER)
   public List<TaskLabel> taskLabels = new ArrayList<>();
 
-  @OneToOne(cascade = CascadeType.ALL)
+  @ManyToOne
+  @JoinColumn(name = "milestone_id")
   public Milestone milestone;
 
   /** Getter and Setter */
