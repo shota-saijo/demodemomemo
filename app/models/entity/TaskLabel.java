@@ -10,8 +10,6 @@ import javax.persistence.ManyToOne;
 @Entity
 public class TaskLabel extends Model {
 
-  public static final Finder<Long, Task> find = new Finder<>(Task.class);
-
   @Id @GeneratedValue public Long id;
 
   @ManyToOne

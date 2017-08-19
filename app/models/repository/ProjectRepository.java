@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import java.util.List;
 import models.entity.Label;
 import models.entity.Member;
+import models.entity.Milestone;
 import models.entity.Project;
 import models.entity.Task;
 import models.entity.User;
@@ -50,6 +51,22 @@ public class ProjectRepository {
 
   public void removeLabel(Project project, Long labelId) {
     project.getLabels().removeIf(label -> label.getId() == labelId);
+    project.update();
+  }
+
+  public void addMilestone(Project project, Milestone milestone) {
+    project.getMilestones().add(milestone);
+    project.update();
+  }
+
+  public void removeMilestone(Project project, Long milestoneId) {
+    project
+        .getTasks()
+        .stream()
+        .filter(task -> task.getMilestone().getId() == milestoneId)
+        .forEach(task -> task.setMilestone(null));
+    project.update();
+    project.getMilestones().removeIf(milestone -> milestone.getId() == milestoneId);
     project.update();
   }
 

@@ -1,0 +1,80 @@
+@(user: User, project: Project, milestones: List[models.form.MilestoneForm])
+
+@layout("milestone", script, style) {
+<div style="padding:10px">
+  @content_header
+  <div class="content-fluid">
+    @content
+  </div>
+</div>
+}
+
+@content_header={
+<ol class="breadcrumb">
+  <li><a href="/user/@user.id">@user.accountId</a></li>
+  <li><a href="@routes.DashboardController.showAllProjects(user.id)">ダッシュボード</a></li>
+  <li><a href="@routes.TaskController.showProjectTasks(user.id, project.id)">@project.name</a></li>
+  <li class="active">Milestone</li>
+</ol>
+<hr>
+}
+
+@content={
+<form action="@routes.MilestoneController.create(user.getId(), project.getId())" method="post" data-toggle="validator">
+  <div class="row">
+    <div class="col-md-4">
+      <input class="form-control" name="name" placeholder="名前" required data-required-error="名前は必須です。">
+      <div class="help-block with-errors"></div>
+    </div>
+    <div class="col-md-3">
+      <input class="form-control datetimepicker start" name="start" placeholder="開始日" required data-required-error="開始日は必須です。">
+      <div class="help-block with-errors"></div>
+    </div>
+    <div class="col-md-3">
+      <input class="form-control datetimepicker end" name="end" placeholder="終了日" required data-required-error="終了日は必須です。">
+      <div class="help-block with-errors"></div>
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-success">create</button>
+    </div>
+  </div>
+</form>
+<hr>
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr class="row">
+        <th class="col-md-4">名前</th>
+        <th class="col-md-6">進捗状況(%)</th>
+        <th class="col-md-2"></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(milestone <- milestones) {
+      <tr class="row">
+        <td class="col-md-4">
+          @milestone.getName()
+          <br>
+          from @milestone.getStart() to @milestone.getEnd()
+        </td>
+        <td class="col-md-6">
+          <div class="progress" style="margin:7px;">
+            <div class="progress-bar" role="progressbar" style="width: @milestone.getProgress();">
+              @milestone.getProgress()
+            </div>
+          </div>
+        </td>
+        <td class="col-md-2">
+          <form action="@routes.MilestoneController.remove(user.getId(), project.getId(), milestone.getId())" method="post">
+            <button class="btn btn-warning">remove</button>
+          </form>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+}
+
+@script={}
+@style={}

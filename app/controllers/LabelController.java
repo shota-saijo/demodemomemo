@@ -27,9 +27,7 @@ public class LabelController extends BaseController {
       return notFound("404 user is not found");
     }
     Project project = projectRepository.findById(projectId);
-    List<Label> labels = project.getLabels();
-    Logger.debug("show label controller");
-    return ok(views.html.label.render(user, project, labels));
+    return ok(views.html.label.render(user, project));
   }
 
   public Result create(Long userId, Long projectId) {
