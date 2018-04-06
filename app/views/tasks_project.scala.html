@@ -10,9 +10,6 @@
 <div class="container-fluid">
     <div class="row"  style="margin:10px 0px">
         <div class="col-md-6">
-            <input class="form-control" placeholder="Find a Task...">
-        </div>
-        <div class="col-md-6">
             <a href="@routes.LabelController.show(user.id, project.id)" class="btn btn-default">Labels</a>
             <a href="@routes.MilestoneController.show(user.id, project.id)" class="btn btn-default">Milestone</a>
             <a href=@routes.TaskController.showNewTask(user.id, project.id) class="btn btn-success pull-right">New Task</a>
